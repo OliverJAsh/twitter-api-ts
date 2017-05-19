@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "sourceMap": true,
+
+        "outDir": "./target/",
+        "plugins": [
+            { "name": "tslint-language-service" }
+        ],
+        "declaration": true
+    },
+    "files": [
+        "./src/index.ts"
+    ]
+}
