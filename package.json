@@ -1,0 +1,30 @@
+{
+  "name": "twitter-api-ts",
+  "main": "./target/index.js",
+  "typings": "./target/index.d.ts",
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "tslint --project tsconfig.json --type-check",
+    "compile": "tsc",
+    "cleanTarget": "rm -rf ./target/*",
+    "prepublish": "yarn cleanTarget && yarn compile && yarn lint"
+  },
+  "files": [
+    "target"
+  ],
+  "dependencies": {
+    "fp-ts": "0.2.8",
+    "http-status-codes": "1.1.6",
+    "io-ts": "0.3.2",
+    "node-fetch": "1.6.3",
+    "oauth-authorization-header": "0.0.5"
+  },
+  "devDependencies": {
+    "@types/http-status-codes": "1.0.29",
+    "@types/node-fetch": "1.6.7",
+    "tslint-language-service": "0.9.5",
+    "tslint": "5.2.0",
+    "typescript-string-enums": "0.3.2",
+    "typescript": "2.3.2"
+  }
+}
