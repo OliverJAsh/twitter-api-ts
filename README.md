@@ -1,8 +1,8 @@
 # twitter-api-ts
 
-Type-safe Twitter API client for functional programmers.
+TypScript compatible Twitter API client.
 
-- [io-ts] is used to perform IO validation.
+- [io-ts] is used to perform IO validation for type safety.
 - [fp-ts] is used for its `Task`, `Either`, and `Option` types.
 - Request functions return types of `type Response<T> = either.Either<ErrorResponse, T>`.
 
