@@ -86,10 +86,10 @@ export const getRequestToken = (
             if (response.ok) {
                 const parsed = querystring.parse(text);
                 // tslint:disable max-line-length
-                return validate(500, TwitterAPIRequestTokenResponse)(parsed);
+                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIRequestTokenResponse)(parsed);
             } else {
                 const parsed = JSON.parse(text);
-                return validate(500, TwitterAPIErrorResponse)(parsed)
+                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIErrorResponse)(parsed)
                     .chain(errorResponse => (
                         createErrorResponse<TwitterAPIRequestTokenResponseT>(
                             new APIErrorResponseErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse),
@@ -117,10 +117,10 @@ export const getAccessToken = (
             if (response.ok) {
                 const parsed = querystring.parse(text);
                 // tslint:disable max-line-length
-                return validate(500, TwitterAPIAccessTokenResponse)(parsed);
+                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIAccessTokenResponse)(parsed);
             } else {
                 const parsed = JSON.parse(text);
-                return validate(500, TwitterAPIErrorResponse)(parsed)
+                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIErrorResponse)(parsed)
                     .chain(errorResponse => (
                         createErrorResponse<TwitterAPIAccessTokenResponseT>(
                             new APIErrorResponseErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse),
@@ -153,9 +153,9 @@ export const fetchHomeTimeline = (
         new task.Task(() => response.json())
             .map(parsed => {
                 if (response.ok) {
-                    return validate(500, TwitterAPITimelineResponse)(parsed);
+                    return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPITimelineResponse)(parsed);
                 } else {
-                    return validate(500, TwitterAPIErrorResponse)(parsed)
+                    return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIErrorResponse)(parsed)
                         .chain(errorResponse => {
                             const statusCode = response.status === HttpStatus.TOO_MANY_REQUESTS
                                 ? HttpStatus.TOO_MANY_REQUESTS
