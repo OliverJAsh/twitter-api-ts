@@ -59,7 +59,10 @@ export const ErrorResponseTypes = Enum(
 );
 
 export class APIErrorResponseErrorResponse {
-    readonly type = ErrorResponseTypes.APIErrorResponse;
+    // Literal type annotation required due to bug whereby literal types are
+    // lost in declarations.
+    // https://github.com/Microsoft/TypeScript/issues/15881
+    readonly type: typeof ErrorResponseTypes.APIErrorResponse = ErrorResponseTypes.APIErrorResponse;
 
     constructor(
         public statusCode: number,
@@ -68,7 +71,11 @@ export class APIErrorResponseErrorResponse {
 }
 
 export class ValidationErrorsErrorResponse {
-    readonly type = ErrorResponseTypes.ValidationErrorsError;
+    // Literal type annotation required due to bug whereby literal types are
+    // lost in declarations.
+    // https://github.com/Microsoft/TypeScript/issues/15881
+    // tslint:disable-next-line max-line-length
+    readonly type: typeof ErrorResponseTypes.ValidationErrorsError = ErrorResponseTypes.ValidationErrorsError;
 
     constructor(
         public statusCode: number,
