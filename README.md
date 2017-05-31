@@ -18,7 +18,7 @@ yarn add twitter-api-ts
 
 ``` ts
 import { fetchHomeTimeline } from 'twitter-api-ts';
-import { option } from 'fp-ts';
+import * as option from 'fp-ts/lib/Option';
 
 const CONSUMER_KEY = 'YOUR_CONSUMER_KEY';
 const CONSUMER_SECRET = 'YOUR_CONSUMER_SECRET';

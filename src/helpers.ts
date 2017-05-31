@@ -1,4 +1,5 @@
-import { either, task } from 'fp-ts';
+import * as either from 'fp-ts/lib/Either';
+import * as task from 'fp-ts/lib/Task';
 import * as t from 'io-ts';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 

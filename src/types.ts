@@ -1,4 +1,5 @@
-import { either, option } from 'fp-ts';
+import * as either from 'fp-ts/lib/Either';
+import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import { Enum } from 'typescript-string-enums';
 

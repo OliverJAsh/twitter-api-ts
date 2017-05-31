@@ -1,4 +1,4 @@
-import { task } from 'fp-ts';
+import * as task from 'fp-ts/lib/Task';
 import * as HttpStatus from 'http-status-codes';
 import { Response as FetchResponse } from 'node-fetch';
 import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
