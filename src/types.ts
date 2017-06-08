@@ -87,7 +87,6 @@ export class ParsingErrorErrorResponse {
     // Literal type annotation required due to bug whereby literal types are
     // lost in declarations.
     // https://github.com/Microsoft/TypeScript/issues/15881
-    // tslint:disable-next-line max-line-length
     readonly type: typeof ErrorResponseTypes.ParsingError = ErrorResponseTypes.ParsingError;
 
     constructor(
