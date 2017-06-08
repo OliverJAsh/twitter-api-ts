@@ -9,6 +9,8 @@
         "max-line-length": [true, 100],
         "eofline": true,
         "indent": [true, "spaces"],
-        "ordered-imports": [true]
+        "ordered-imports": [true],
+        "no-switch-case-fall-through": true,
+        "arrow-return-shorthand": [true, "multiline"]
     }
 }
