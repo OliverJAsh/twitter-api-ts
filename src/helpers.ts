@@ -20,33 +20,25 @@ import {
     ValidationErrorsErrorResponse,
 } from './types';
 
-export const createErrorResponse = <T>(
-    errorResponse: ErrorResponse,
-): Response<T> => (
+export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> => (
     either.left<ErrorResponse, T>(errorResponse)
 );
 
 export const serializeTimelineQueryParams = (
     params: TimelineQueryParams,
-): SerializedTimelineQueryParams => (
-    {
-        count: params.count,
-        ...(
-            params.maybeMaxId
-                .map((maxId): Pick<SerializedTimelineQueryParams, 'max_id'> => ({ max_id: maxId }))
-                .getOrElse(() => ({}))
-        ),
-    }
-);
+): SerializedTimelineQueryParams => ({
+    count: params.count,
+    ...params.maybeMaxId
+        .map((maxId): Pick<SerializedTimelineQueryParams, 'max_id'> => ({ max_id: maxId }))
+        .getOrElse(() => ({})),
+});
 
 export const fetchTask = (url: string, init?: FetchRequestInit) => (
     new task.Task(() => fetch(url, init))
 );
 
 export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined => (
-    maybeT === null
-        ? undefined
-        : maybeT
+    maybeT === null ? undefined : maybeT
 );
 
 export const typecheck = <A>(a: A) => a;
@@ -60,11 +52,9 @@ const jsonParse: jsonParse = jsonString => (
 export type validateType = (
     <A>(type: t.Type<A>) => (value: any) => Either<ValidationErrorsErrorResponse, A>
 );
-export const validateType: validateType = (
-    type => value => (
-        t.validate(value, type)
-            .mapLeft(validationErrors => new ValidationErrorsErrorResponse(500, validationErrors))
-    )
+export const validateType: validateType = type => value => (
+    t.validate(value, type)
+        .mapLeft(validationErrors => new ValidationErrorsErrorResponse(500, validationErrors))
 );
 
 export type JsonDecodeError = ParsingErrorErrorResponse | ValidationErrorsErrorResponse;
@@ -72,10 +62,7 @@ export type JsonDecodeError = ParsingErrorErrorResponse | ValidationErrorsErrorR
 export type jsonDecodeString = (
     <A>(type: t.Type<A>) => (value: string) => Either<JsonDecodeError, A>
 );
-export const jsonDecodeString: jsonDecodeString = (
-    type => value => (
-        // Widen Left generic
-        typecheck<Either<JsonDecodeError, any>>(jsonParse(value))
-            .chain(validateType(type))
-    )
+export const jsonDecodeString: jsonDecodeString = type => value => (
+    // Widen Left generic
+    typecheck<Either<JsonDecodeError, any>>(jsonParse(value)).chain(validateType(type))
 );
