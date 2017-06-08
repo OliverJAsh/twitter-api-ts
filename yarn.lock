@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@types/http-status-codes@1.0.29":
-  version "1.0.29"
-  resolved "https://registry.yarnpkg.com/@types/http-status-codes/-/http-status-codes-1.0.29.tgz#d308c9aa1f91f64c0e6f751de2789e87c7f0aa0c"
-
 "@types/node-fetch@1.6.7":
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-1.6.7.tgz#521078e8f0c69a158e5022005aca92d2620f6d57"

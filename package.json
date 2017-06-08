@@ -19,7 +19,6 @@
     "oauth-authorization-header": "0.0.5"
   },
   "devDependencies": {
-    "@types/http-status-codes": "1.0.29",
     "@types/node-fetch": "1.6.7",
     "tslint": "5.4.3",
     "tslint-language-service": "0.9.6",
