@@ -117,7 +117,6 @@ type handleAccessTokenResponse = (response: FetchResponse) => task.Task<AccessTo
 const handleAccessTokenResponse: handleAccessTokenResponse = response => (
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
-            // https://elmlang.slack.com/archives/C0CJ3SBBM/p1496695778521767
             const parsed = querystring.parse(text);
             return validateType(TwitterAPIAccessTokenResponse)(parsed);
         } else {
