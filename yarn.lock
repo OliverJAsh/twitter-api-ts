@@ -253,10 +253,6 @@ http-signature@~1.1.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-http-status-codes@1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/http-status-codes/-/http-status-codes-1.1.6.tgz#7a75d2b94d35a93183f39a0c8a6eb8963c20e50d"
-
 iconv-lite@~0.4.13:
   version "0.4.17"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.17.tgz#4fdaa3b38acbc2c031b045d0edcdfe1ecab18c8d"

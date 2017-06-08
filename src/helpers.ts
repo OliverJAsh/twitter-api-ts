@@ -46,7 +46,7 @@ export const typecheck = <A>(a: A) => a;
 type jsonParse = (jsonString: string) => Either<ParsingErrorErrorResponse, any>;
 const jsonParse: jsonParse = jsonString => (
     either.tryCatch(() => JSON.parse(jsonString))
-        .mapLeft(error => new ParsingErrorErrorResponse(500, jsonString, error.message))
+        .mapLeft(error => new ParsingErrorErrorResponse(jsonString, error.message))
 );
 
 export type validateType = (
@@ -54,7 +54,7 @@ export type validateType = (
 );
 export const validateType: validateType = type => value => (
     t.validate(value, type)
-        .mapLeft(validationErrors => new ValidationErrorsErrorResponse(500, validationErrors))
+        .mapLeft(validationErrors => new ValidationErrorsErrorResponse(validationErrors))
 );
 
 export type JsonDecodeError = ParsingErrorErrorResponse | ValidationErrorsErrorResponse;

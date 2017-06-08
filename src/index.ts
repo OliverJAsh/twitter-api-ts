@@ -1,5 +1,4 @@
 import * as task from 'fp-ts/lib/Task';
-import * as HttpStatus from 'http-status-codes';
 import { Response as FetchResponse } from 'node-fetch';
 import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
 import * as querystring from 'querystring';
@@ -96,7 +95,6 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response => (
             ).chain(errorResponse =>
                 createErrorResponse<TwitterAPIRequestTokenResponseT>(
                     new APIErrorResponseErrorResponse(
-                        HttpStatus.INTERNAL_SERVER_ERROR,
                         errorResponse,
                     ),
                 ),
@@ -128,7 +126,6 @@ const handleAccessTokenResponse: handleAccessTokenResponse = response => (
             ).chain(errorResponse =>
                 createErrorResponse<TwitterAPIAccessTokenResponseT>(
                     new APIErrorResponseErrorResponse(
-                        HttpStatus.INTERNAL_SERVER_ERROR,
                         errorResponse,
                     ),
                 ),
@@ -154,14 +151,11 @@ const handleTimelineResponse = (response: FetchResponse) => (
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
                 jsonDecodeString(TwitterAPIErrorResponse)(text),
-            ).chain(errorResponse => {
-                const statusCode = response.status === HttpStatus.TOO_MANY_REQUESTS
-                    ? HttpStatus.TOO_MANY_REQUESTS
-                    : HttpStatus.INTERNAL_SERVER_ERROR;
-                return createErrorResponse<TwitterAPITimelineResponseT>(
-                    new APIErrorResponseErrorResponse(statusCode, errorResponse),
-                );
-            });
+            ).chain(errorResponse => (
+                createErrorResponse<TwitterAPITimelineResponseT>(
+                    new APIErrorResponseErrorResponse(errorResponse),
+                )
+            ));
         }
     })
 );

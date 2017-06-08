@@ -67,7 +67,6 @@ export class APIErrorResponseErrorResponse {
     readonly type: typeof ErrorResponseTypes.APIErrorResponse = ErrorResponseTypes.APIErrorResponse;
 
     constructor(
-        public statusCode: number,
         public apiErrorResponse: TwitterAPIErrorResponseT,
     ) {}
 }
@@ -80,7 +79,6 @@ export class ValidationErrorsErrorResponse {
     readonly type: typeof ErrorResponseTypes.ValidationErrorsError = ErrorResponseTypes.ValidationErrorsError;
 
     constructor(
-        public statusCode: number,
         public validationErrors: t.ValidationError[],
     ) {}
 }
@@ -93,7 +91,6 @@ export class ParsingErrorErrorResponse {
     readonly type: typeof ErrorResponseTypes.ParsingError = ErrorResponseTypes.ParsingError;
 
     constructor(
-        public statusCode: number,
         public input: string,
         public errorMessage: string,
     ) {}

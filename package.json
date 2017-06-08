@@ -14,7 +14,6 @@
   ],
   "dependencies": {
     "fp-ts": "0.2.8",
-    "http-status-codes": "1.1.6",
     "io-ts": "0.3.2",
     "node-fetch": "1.6.3",
     "oauth-authorization-header": "0.0.5"
