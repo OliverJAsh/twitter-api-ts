@@ -26,12 +26,6 @@ export const createErrorResponse = <T>(
     either.left<ErrorResponse, T>(errorResponse)
 );
 
-export const createSuccessResponse = <T>(
-    successResponse: T,
-): Response<T> => (
-    either.right<ErrorResponse, T>(successResponse)
-);
-
 export const serializeTimelineQueryParams = (
     params: TimelineQueryParams,
 ): SerializedTimelineQueryParams => (
