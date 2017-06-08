@@ -1,8 +1,6 @@
 {
     "rules": {
-        // Enabling this rule causes false negative errors related to
-        // strict-boolean-expressions
-        // https://github.com/palantir/tslint/issues/2757
+        // Not currently supported by tslint-language-service
         // "no-unused-variable": true,
         "strict-boolean-expressions": true,
         "semicolon": [true, "always"],
