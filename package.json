@@ -22,9 +22,9 @@
   "devDependencies": {
     "@types/http-status-codes": "1.0.29",
     "@types/node-fetch": "1.6.7",
-    "tslint-language-service": "0.9.5",
-    "tslint": "5.2.0",
-    "typescript-string-enums": "0.3.2",
-    "typescript": "2.3.2"
+    "tslint": "5.4.3",
+    "tslint-language-service": "0.9.6",
+    "typescript": "next",
+    "typescript-string-enums": "0.3.2"
   }
 }

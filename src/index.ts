@@ -8,9 +8,11 @@ import { TWITTER_API_BASE_URL } from './constants';
 import {
     createErrorResponse,
     fetchTask,
+    jsonDecodeString,
     nullableNullToUndefined,
     serializeTimelineQueryParams,
-    validate,
+    typecheck,
+    validateType,
 } from './helpers';
 import {
     AccessTokenResponse,
@@ -18,6 +20,7 @@ import {
     OAuthOptions,
     RequestMethod,
     RequestTokenResponse,
+    Response,
     TimelineQueryParams,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
@@ -33,21 +36,24 @@ import {
 /* tslint:disable no-unused-variable */
 import { Left, Right } from 'fp-ts/lib/Either';
 import { InterfaceOf, InterfaceType, Type } from 'io-ts';
-import {
-    ValidationErrorsErrorResponse,
-} from './types';
+import * as t from 'io-ts';
+import { TwitterAPIErrorResponseT } from './types';
+import { ErrorResponse, ParsingErrorErrorResponse, ValidationErrorsErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 
-export const fetchFromTwitter = ({
+export type fetchFromTwitter = (
+    args: {
+        oAuth: OAuthOptions;
+        endpointPath: string;
+        method: RequestMethod;
+        queryParams: {};
+    },
+) => task.Task<FetchResponse>;
+export const fetchFromTwitter: fetchFromTwitter = ({
     oAuth,
     endpointPath,
     method,
     queryParams,
-}: {
-    oAuth: OAuthOptions,
-    endpointPath: string,
-    method: RequestMethod,
-    queryParams: {},
 }) => {
     const baseUrl = `${TWITTER_API_BASE_URL}${endpointPath}`;
     const paramsStr = Object.keys(queryParams).length > 0
@@ -78,101 +84,98 @@ export const fetchFromTwitter = ({
 };
 
 // https://dev.twitter.com/oauth/reference/post/oauth/request_token
-export const getRequestToken = (
-    { oAuth }: { oAuth: OAuthOptions },
-): task.Task<RequestTokenResponse> => {
-    const handleResponse = (response: FetchResponse) => (
-        new task.Task(() => response.text()).map(text => {
-            if (response.ok) {
-                const parsed = querystring.parse(text);
-                // tslint:disable max-line-length
-                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIRequestTokenResponse)(parsed);
-            } else {
-                const parsed = JSON.parse(text);
-                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIErrorResponse)(parsed)
-                    .chain(errorResponse => (
-                        createErrorResponse<TwitterAPIRequestTokenResponseT>(
-                            new APIErrorResponseErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse),
-                        )
-                    ));
-            }
-        })
-    );
-
-    return fetchFromTwitter({
+type handleRequestTokenResponse = (response: FetchResponse) => task.Task<RequestTokenResponse>;
+const handleRequestTokenResponse: handleRequestTokenResponse = response => (
+    new task.Task(() => response.text()).map(text => {
+        if (response.ok) {
+            const parsed = querystring.parse(text);
+            return validateType(TwitterAPIRequestTokenResponse)(parsed);
+        } else {
+            return typecheck<Response<TwitterAPIErrorResponseT>>(
+                jsonDecodeString(TwitterAPIErrorResponse)(text),
+            ).chain(errorResponse =>
+                createErrorResponse<TwitterAPIRequestTokenResponseT>(
+                    new APIErrorResponseErrorResponse(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        errorResponse,
+                    ),
+                ),
+            );
+        }
+    })
+);
+export type getRequestToken = (args: { oAuth: OAuthOptions }) => task.Task<RequestTokenResponse>;
+export const getRequestToken: getRequestToken = ({ oAuth }) => (
+    fetchFromTwitter({
         oAuth,
         endpointPath: `/oauth/request_token`,
         method: 'POST',
         queryParams: {},
-    })
-        .chain(handleResponse);
-};
+    }).chain(handleRequestTokenResponse)
+);
 
 // https://dev.twitter.com/oauth/reference/post/oauth/access_token
-export const getAccessToken = (
-    { oAuth }: { oAuth: OAuthOptions },
-): task.Task<AccessTokenResponse> => {
-    const handleResponse = (response: FetchResponse) => (
-        new task.Task(() => response.text()).map(text => {
-            if (response.ok) {
-                const parsed = querystring.parse(text);
-                // tslint:disable max-line-length
-                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIAccessTokenResponse)(parsed);
-            } else {
-                const parsed = JSON.parse(text);
-                return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIErrorResponse)(parsed)
-                    .chain(errorResponse => (
-                        createErrorResponse<TwitterAPIAccessTokenResponseT>(
-                            new APIErrorResponseErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse),
-                        )
-                    ));
-            }
-        })
-    );
-
-    return fetchFromTwitter({
+type handleAccessTokenResponse = (response: FetchResponse) => task.Task<AccessTokenResponse>;
+const handleAccessTokenResponse: handleAccessTokenResponse = response => (
+    new task.Task(() => response.text()).map(text => {
+        if (response.ok) {
+            // https://elmlang.slack.com/archives/C0CJ3SBBM/p1496695778521767
+            const parsed = querystring.parse(text);
+            return validateType(TwitterAPIAccessTokenResponse)(parsed);
+        } else {
+            return typecheck<Response<TwitterAPIErrorResponseT>>(
+                jsonDecodeString(TwitterAPIErrorResponse)(text),
+            ).chain(errorResponse =>
+                createErrorResponse<TwitterAPIAccessTokenResponseT>(
+                    new APIErrorResponseErrorResponse(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        errorResponse,
+                    ),
+                ),
+            );
+        }
+    })
+);
+export type getAccessToken = (args: { oAuth: OAuthOptions }) => task.Task<AccessTokenResponse>;
+export const getAccessToken: getAccessToken = ({ oAuth }) => (
+    fetchFromTwitter({
         oAuth,
         endpointPath: `/oauth/access_token`,
         method: 'POST',
         queryParams: {},
-    })
-        .chain(handleResponse);
-};
+    }).chain(handleAccessTokenResponse)
+);
 
 // https://dev.twitter.com/rest/reference/get/statuses/home_timeline
-export const fetchHomeTimeline = (
-    {
-        oAuth,
-        queryParams,
-    }: {
-        oAuth: OAuthOptions,
-        queryParams: TimelineQueryParams,
+const handleTimelineResponse = (response: FetchResponse) => (
+    new task.Task(() => response.text()).map(text => {
+        if (response.ok) {
+            return jsonDecodeString(TwitterAPITimelineResponse)(text);
+        } else {
+            return typecheck<Response<TwitterAPIErrorResponseT>>(
+                jsonDecodeString(TwitterAPIErrorResponse)(text),
+            ).chain(errorResponse => {
+                const statusCode = response.status === HttpStatus.TOO_MANY_REQUESTS
+                    ? HttpStatus.TOO_MANY_REQUESTS
+                    : HttpStatus.INTERNAL_SERVER_ERROR;
+                return createErrorResponse<TwitterAPITimelineResponseT>(
+                    new APIErrorResponseErrorResponse(statusCode, errorResponse),
+                );
+            });
+        }
+    })
+);
+export type fetchHomeTimeline = (
+    args: {
+        oAuth: OAuthOptions;
+        queryParams: TimelineQueryParams;
     },
-): task.Task<TimelineResponse> => {
-    const handleResponse = (response: FetchResponse) => (
-        new task.Task(() => response.json())
-            .map(parsed => {
-                if (response.ok) {
-                    return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPITimelineResponse)(parsed);
-                } else {
-                    return validate(HttpStatus.INTERNAL_SERVER_ERROR, TwitterAPIErrorResponse)(parsed)
-                        .chain(errorResponse => {
-                            const statusCode = response.status === HttpStatus.TOO_MANY_REQUESTS
-                                ? HttpStatus.TOO_MANY_REQUESTS
-                                : HttpStatus.INTERNAL_SERVER_ERROR;
-                            return createErrorResponse<TwitterAPITimelineResponseT>(
-                                new APIErrorResponseErrorResponse(statusCode, errorResponse),
-                            );
-                        });
-                }
-            })
-    );
-
-    return fetchFromTwitter({
+) => task.Task<TimelineResponse>;
+export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, queryParams }) => (
+    fetchFromTwitter({
         oAuth,
         endpointPath: '/1.1/statuses/home_timeline.json',
         method: 'GET',
         queryParams: serializeTimelineQueryParams(queryParams),
-    })
-        .chain(handleResponse);
-};
+    }).chain(handleTimelineResponse)
+);

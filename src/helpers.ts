@@ -3,6 +3,8 @@ import * as task from 'fp-ts/lib/Task';
 import * as t from 'io-ts';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 
+export type Either<L, A> = either.Either<L, A>;
+
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
 import { Response as FetchResponse } from 'node-fetch';
@@ -11,6 +13,7 @@ import { APIErrorResponseErrorResponse } from './types';
 
 import {
     ErrorResponse,
+    ParsingErrorErrorResponse,
     Response,
     SerializedTimelineQueryParams,
     TimelineQueryParams,
@@ -29,28 +32,6 @@ export const createSuccessResponse = <T>(
     either.right<ErrorResponse, T>(successResponse)
 );
 
-const validationResultToResponse = (
-    statusCode: number,
-) => <T>(
-    validationResult: t.Validation<T>,
-): Response<T> => (
-    validationResult.mapLeft(validationErrors => (
-        new ValidationErrorsErrorResponse(
-            statusCode,
-            validationErrors,
-        )
-    ))
-);
-
-export const validate = <T>(
-    statusCode: number,
-    type: t.Type<T>,
-) => (
-    value: T,
-): Response<T> => (
-    validationResultToResponse(statusCode)(t.validate(value, type))
-);
-
 export const serializeTimelineQueryParams = (
     params: TimelineQueryParams,
 ): SerializedTimelineQueryParams => (
@@ -58,7 +39,7 @@ export const serializeTimelineQueryParams = (
         count: params.count,
         ...(
             params.maybeMaxId
-                .map((maxId): Partial<SerializedTimelineQueryParams> => ({ max_id: maxId }))
+                .map((maxId): Pick<SerializedTimelineQueryParams, 'max_id'> => ({ max_id: maxId }))
                 .getOrElse(() => ({}))
         ),
     }
@@ -72,4 +53,35 @@ export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined => (
     maybeT === null
         ? undefined
         : maybeT
+);
+
+export const typecheck = <A>(a: A) => a;
+
+type jsonParse = (jsonString: string) => Either<ParsingErrorErrorResponse, any>;
+const jsonParse: jsonParse = jsonString => (
+    either.tryCatch(() => JSON.parse(jsonString))
+        .mapLeft(error => new ParsingErrorErrorResponse(500, jsonString, error.message))
+);
+
+export type validateType = (
+    <A>(type: t.Type<A>) => (value: any) => Either<ValidationErrorsErrorResponse, A>
+);
+export const validateType: validateType = (
+    type => value => (
+        t.validate(value, type)
+            .mapLeft(validationErrors => new ValidationErrorsErrorResponse(500, validationErrors))
+    )
+);
+
+export type JsonDecodeError = ParsingErrorErrorResponse | ValidationErrorsErrorResponse;
+
+export type jsonDecodeString = (
+    <A>(type: t.Type<A>) => (value: string) => Either<JsonDecodeError, A>
+);
+export const jsonDecodeString: jsonDecodeString = (
+    type => value => (
+        // Widen Left generic
+        typecheck<Either<JsonDecodeError, any>>(jsonParse(value))
+            .chain(validateType(type))
+    )
 );
