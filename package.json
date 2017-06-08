@@ -2,7 +2,7 @@
   "name": "twitter-api-ts",
   "main": "./target/index.js",
   "typings": "./target/index.d.ts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "lint": "tslint --project tsconfig.json --type-check",
     "compile": "tsc",
