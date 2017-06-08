@@ -10,6 +10,7 @@
         "eofline": true,
         "indent": [true, "spaces"],
         "ordered-imports": [true],
+        "no-inferrable-types": [true, "ignore-properties"],
         "no-switch-case-fall-through": true,
         "arrow-return-shorthand": [true, "multiline"]
     }
