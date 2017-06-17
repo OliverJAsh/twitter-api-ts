@@ -6,8 +6,8 @@ export type Either<L, A> = either.Either<L, A>;
 
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
+import * as DecodeTypes from 'decode-ts/target/types';
 import { Response as FetchResponse } from 'node-fetch';
-import * as DecodeTypes from './decode/types';
 import { APIErrorResponseErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 

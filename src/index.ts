@@ -3,8 +3,8 @@ import { Response as FetchResponse } from 'node-fetch';
 import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
 import * as querystring from 'querystring';
 
+import * as Decode from 'decode-ts/target';
 import { TWITTER_API_BASE_URL } from './constants';
-import * as Decode from './decode';
 import {
     createErrorResponse,
     fetchTask,

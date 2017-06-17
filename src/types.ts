@@ -1,8 +1,8 @@
+import * as DecodeTypes from 'decode-ts/target/types';
 import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import { Enum } from 'typescript-string-enums';
-import * as DecodeTypes from './decode/types';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 
