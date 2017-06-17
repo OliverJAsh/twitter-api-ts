@@ -4,14 +4,13 @@ import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
 import * as querystring from 'querystring';
 
 import { TWITTER_API_BASE_URL } from './constants';
+import * as Decode from './decode';
 import {
     createErrorResponse,
     fetchTask,
-    jsonDecodeString,
     nullableNullToUndefined,
     serializeTimelineQueryParams,
     typecheck,
-    validateType,
 } from './helpers';
 import {
     AccessTokenResponse,
@@ -37,7 +36,7 @@ import { Left, Right } from 'fp-ts/lib/Either';
 import { InterfaceOf, InterfaceType, Type } from 'io-ts';
 import * as t from 'io-ts';
 import { TwitterAPIErrorResponseT } from './types';
-import { ErrorResponse, ParsingErrorErrorResponse, ValidationErrorsErrorResponse } from './types';
+import { ErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 
 export type fetchFromTwitter = (
@@ -88,10 +87,10 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response => (
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return validateType(TwitterAPIRequestTokenResponse)(parsed);
+            return Decode.validateType(TwitterAPIRequestTokenResponse)(parsed);
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                jsonDecodeString(TwitterAPIErrorResponse)(text),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
             ).chain(errorResponse =>
                 createErrorResponse<TwitterAPIRequestTokenResponseT>(
                     new APIErrorResponseErrorResponse(
@@ -118,10 +117,10 @@ const handleAccessTokenResponse: handleAccessTokenResponse = response => (
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return validateType(TwitterAPIAccessTokenResponse)(parsed);
+            return Decode.validateType(TwitterAPIAccessTokenResponse)(parsed);
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                jsonDecodeString(TwitterAPIErrorResponse)(text),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
             ).chain(errorResponse =>
                 createErrorResponse<TwitterAPIAccessTokenResponseT>(
                     new APIErrorResponseErrorResponse(
@@ -146,10 +145,10 @@ export const getAccessToken: getAccessToken = ({ oAuth }) => (
 const handleTimelineResponse = (response: FetchResponse) => (
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
-            return jsonDecodeString(TwitterAPITimelineResponse)(text);
+            return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text);
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                jsonDecodeString(TwitterAPIErrorResponse)(text),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
             ).chain(errorResponse => (
                 createErrorResponse<TwitterAPITimelineResponseT>(
                     new APIErrorResponseErrorResponse(errorResponse),

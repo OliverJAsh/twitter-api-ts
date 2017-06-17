@@ -2,6 +2,7 @@ import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import { Enum } from 'typescript-string-enums';
+import * as DecodeTypes from './decode/types';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 
@@ -56,8 +57,8 @@ export type TwitterAPITimelineResponseT = t.TypeOf<typeof TwitterAPITimelineResp
 
 export const ErrorResponseTypes = Enum(
     'APIErrorResponse',
-    'ValidationErrorsError',
-    'ParsingError',
+    DecodeTypes.ErrorTypes.ValidationErrors,
+    DecodeTypes.ErrorTypes.ParsingError,
 );
 
 export class APIErrorResponseErrorResponse {
@@ -71,34 +72,10 @@ export class APIErrorResponseErrorResponse {
     ) {}
 }
 
-export class ValidationErrorsErrorResponse {
-    // Literal type annotation required due to bug whereby literal types are
-    // lost in declarations.
-    // https://github.com/Microsoft/TypeScript/issues/15881
-    // tslint:disable-next-line max-line-length
-    readonly type: typeof ErrorResponseTypes.ValidationErrorsError = ErrorResponseTypes.ValidationErrorsError;
-
-    constructor(
-        public validationErrors: t.ValidationError[],
-    ) {}
-}
-
-export class ParsingErrorErrorResponse {
-    // Literal type annotation required due to bug whereby literal types are
-    // lost in declarations.
-    // https://github.com/Microsoft/TypeScript/issues/15881
-    readonly type: typeof ErrorResponseTypes.ParsingError = ErrorResponseTypes.ParsingError;
-
-    constructor(
-        public input: string,
-        public errorMessage: string,
-    ) {}
-}
-
 export type ErrorResponse = (
       APIErrorResponseErrorResponse
-    | ValidationErrorsErrorResponse
-    | ParsingErrorErrorResponse
+    | DecodeTypes.ValidationErrorsError
+    | DecodeTypes.ParsingErrorError
 );
 
 export type Response<T> = either.Either<ErrorResponse, T>;

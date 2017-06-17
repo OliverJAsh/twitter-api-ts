@@ -1,6 +1,5 @@
 import * as either from 'fp-ts/lib/Either';
 import * as task from 'fp-ts/lib/Task';
-import * as t from 'io-ts';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 
 export type Either<L, A> = either.Either<L, A>;
@@ -8,16 +7,15 @@ export type Either<L, A> = either.Either<L, A>;
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
 import { Response as FetchResponse } from 'node-fetch';
+import * as DecodeTypes from './decode/types';
 import { APIErrorResponseErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 
 import {
     ErrorResponse,
-    ParsingErrorErrorResponse,
     Response,
     SerializedTimelineQueryParams,
     TimelineQueryParams,
-    ValidationErrorsErrorResponse,
 } from './types';
 
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> => (
@@ -42,27 +40,3 @@ export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined => (
 );
 
 export const typecheck = <A>(a: A) => a;
-
-type jsonParse = (jsonString: string) => Either<ParsingErrorErrorResponse, any>;
-const jsonParse: jsonParse = jsonString => (
-    either.tryCatch(() => JSON.parse(jsonString))
-        .mapLeft(error => new ParsingErrorErrorResponse(jsonString, error.message))
-);
-
-export type validateType = (
-    <A>(type: t.Type<A>) => (value: any) => Either<ValidationErrorsErrorResponse, A>
-);
-export const validateType: validateType = type => value => (
-    t.validate(value, type)
-        .mapLeft(validationErrors => new ValidationErrorsErrorResponse(validationErrors))
-);
-
-export type JsonDecodeError = ParsingErrorErrorResponse | ValidationErrorsErrorResponse;
-
-export type jsonDecodeString = (
-    <A>(type: t.Type<A>) => (value: string) => Either<JsonDecodeError, A>
-);
-export const jsonDecodeString: jsonDecodeString = type => value => (
-    // Widen Left generic
-    typecheck<Either<JsonDecodeError, any>>(jsonParse(value)).chain(validateType(type))
-);
