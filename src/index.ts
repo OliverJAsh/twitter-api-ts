@@ -4,7 +4,7 @@ import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
 import * as querystring from 'querystring';
 
 import * as Decode from 'decode-ts/target';
-import { TWITTER_API_BASE_URL } from './constants';
+import { ENDPOINTS, TWITTER_API_BASE_URL } from './constants';
 import {
     createErrorResponse,
     fetchTask,
@@ -42,7 +42,7 @@ import { ErrorResponse } from './types';
 export type fetchFromTwitter = (
     args: {
         oAuth: OAuthOptions;
-        endpointPath: string;
+        endpointPath: ENDPOINTS;
         method: RequestMethod;
         query: {};
     },
@@ -95,7 +95,7 @@ export type getRequestToken = (args: { oAuth: OAuthOptions }) => task.Task<Reque
 export const getRequestToken: getRequestToken = ({ oAuth }) =>
     fetchFromTwitter({
         oAuth,
-        endpointPath: `/oauth/request_token`,
+        endpointPath: ENDPOINTS.OAuthRequestToken,
         method: 'POST',
         query: {},
     }).chain(handleRequestTokenResponse);
@@ -121,7 +121,7 @@ export type getAccessToken = (args: { oAuth: OAuthOptions }) => task.Task<Access
 export const getAccessToken: getAccessToken = ({ oAuth }) =>
     fetchFromTwitter({
         oAuth,
-        endpointPath: `/oauth/access_token`,
+        endpointPath: ENDPOINTS.OAuthAccessToken,
         method: 'POST',
         query: {},
     }).chain(handleAccessTokenResponse);
@@ -150,7 +150,7 @@ export type fetchHomeTimeline = (
 export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
     fetchFromTwitter({
         oAuth,
-        endpointPath: '/1.1/statuses/home_timeline.json',
+        endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
         query: serializeTimelineQuery(query),
     }).chain(handleTimelineResponse);
