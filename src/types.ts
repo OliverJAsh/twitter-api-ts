@@ -96,12 +96,12 @@ export type OAuthOptions = {
     verifier: option.Option<string>;
 };
 
-export type TimelineQuery = {
+export type StatuesHomeTimelineQuery = {
     count: number;
     maybeMaxId: option.Option<string>;
 };
 
-export type SerializedTimelineQuery = {
+export type SerializedStatuesHomeTimelineQuery = {
     count: number;
     max_id?: string;
 };

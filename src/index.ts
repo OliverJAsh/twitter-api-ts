@@ -9,7 +9,7 @@ import {
     createErrorResponse,
     fetchTask,
     nullableNullToUndefined,
-    serializeTimelineQuery,
+    serializeStatuesHomeTimelineQuery,
     typecheck,
 } from './helpers';
 import {
@@ -19,7 +19,7 @@ import {
     RequestMethod,
     RequestTokenResponse,
     Response,
-    TimelineQuery,
+    StatuesHomeTimelineQuery,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
     TwitterAPIAccessTokenResponseT,
@@ -144,7 +144,7 @@ const handleTimelineResponse = (response: FetchResponse) =>
 export type fetchHomeTimeline = (
     args: {
         oAuth: OAuthOptions;
-        query: TimelineQuery;
+        query: StatuesHomeTimelineQuery;
     },
 ) => task.Task<TimelineResponse>;
 export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
@@ -152,5 +152,5 @@ export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
         oAuth,
         endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
-        query: serializeTimelineQuery(query),
+        query: serializeStatuesHomeTimelineQuery(query),
     }).chain(handleTimelineResponse);

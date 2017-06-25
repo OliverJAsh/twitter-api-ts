@@ -11,17 +11,22 @@ import { Response as FetchResponse } from 'node-fetch';
 import { APIErrorResponseErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 
-import { ErrorResponse, Response, SerializedTimelineQuery, TimelineQuery } from './types';
+import {
+    ErrorResponse,
+    Response,
+    SerializedStatuesHomeTimelineQuery,
+    StatuesHomeTimelineQuery,
+} from './types';
 
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
     either.left<ErrorResponse, T>(errorResponse);
 
-export const serializeTimelineQuery = (
-    query: TimelineQuery,
-): SerializedTimelineQuery => ({
+export const serializeStatuesHomeTimelineQuery = (
+    query: StatuesHomeTimelineQuery,
+): SerializedStatuesHomeTimelineQuery => ({
     count: query.count,
     ...query.maybeMaxId
-        .map((maxId): Pick<SerializedTimelineQuery, 'max_id'> => ({ max_id: maxId }))
+        .map((maxId): Pick<SerializedStatuesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
         .getOrElse(() => ({})),
 });
 
