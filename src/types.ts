@@ -100,8 +100,9 @@ export type StatuesHomeTimelineQuery = {
     count: number;
     maybeMaxId: option.Option<string>;
 };
-
 export type SerializedStatuesHomeTimelineQuery = {
     count: number;
     max_id?: string;
 };
+
+export type SerializedOAuthAuthenticateEndpointQuery = { oauth_token: string };
