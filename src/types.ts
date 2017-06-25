@@ -97,12 +97,12 @@ export type OAuthOptions = {
     verifier: option.Option<string>;
 };
 
-export type TimelineQueryParams = {
-    count: number,
-    maybeMaxId: option.Option<string>,
+export type TimelineQuery = {
+    count: number;
+    maybeMaxId: option.Option<string>;
 };
 
-export type SerializedTimelineQueryParams = {
+export type SerializedTimelineQuery = {
     count: number,
     max_id?: string,
 };

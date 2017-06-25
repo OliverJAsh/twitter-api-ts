@@ -9,7 +9,7 @@ import {
     createErrorResponse,
     fetchTask,
     nullableNullToUndefined,
-    serializeTimelineQueryParams,
+    serializeTimelineQuery,
     typecheck,
 } from './helpers';
 import {
@@ -19,7 +19,7 @@ import {
     RequestMethod,
     RequestTokenResponse,
     Response,
-    TimelineQueryParams,
+    TimelineQuery,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
     TwitterAPIAccessTokenResponseT,
@@ -44,18 +44,18 @@ export type fetchFromTwitter = (
         oAuth: OAuthOptions;
         endpointPath: string;
         method: RequestMethod;
-        queryParams: {};
+        query: {};
     },
 ) => task.Task<FetchResponse>;
 export const fetchFromTwitter: fetchFromTwitter = ({
     oAuth,
     endpointPath,
     method,
-    queryParams,
+    query,
 }) => {
     const baseUrl = `${TWITTER_API_BASE_URL}${endpointPath}`;
-    const paramsStr = Object.keys(queryParams).length > 0
-        ? `?${querystring.stringify(queryParams)}`
+    const paramsStr = Object.keys(query).length > 0
+        ? `?${querystring.stringify(query)}`
         : '';
     const url = `${baseUrl}${paramsStr}`;
 
@@ -70,7 +70,7 @@ export const fetchFromTwitter: fetchFromTwitter = ({
         },
         url,
         method,
-        queryParams,
+        queryParams: query,
         formParams: {},
     });
 
@@ -107,7 +107,7 @@ export const getRequestToken: getRequestToken = ({ oAuth }) => (
         oAuth,
         endpointPath: `/oauth/request_token`,
         method: 'POST',
-        queryParams: {},
+        query: {},
     }).chain(handleRequestTokenResponse)
 );
 
@@ -137,7 +137,7 @@ export const getAccessToken: getAccessToken = ({ oAuth }) => (
         oAuth,
         endpointPath: `/oauth/access_token`,
         method: 'POST',
-        queryParams: {},
+        query: {},
     }).chain(handleAccessTokenResponse)
 );
 
@@ -160,14 +160,14 @@ const handleTimelineResponse = (response: FetchResponse) => (
 export type fetchHomeTimeline = (
     args: {
         oAuth: OAuthOptions;
-        queryParams: TimelineQueryParams;
+        query: TimelineQuery;
     },
 ) => task.Task<TimelineResponse>;
-export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, queryParams }) => (
+export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => (
     fetchFromTwitter({
         oAuth,
         endpointPath: '/1.1/statuses/home_timeline.json',
         method: 'GET',
-        queryParams: serializeTimelineQueryParams(queryParams),
+        query: serializeTimelineQuery(query),
     }).chain(handleTimelineResponse)
 );
