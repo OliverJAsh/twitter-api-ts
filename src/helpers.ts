@@ -13,9 +13,8 @@ import { APIErrorResponseErrorResponse } from './types';
 
 import { ErrorResponse, Response, SerializedTimelineQuery, TimelineQuery } from './types';
 
-export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> => (
-    either.left<ErrorResponse, T>(errorResponse)
-);
+export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
+    either.left<ErrorResponse, T>(errorResponse);
 
 export const serializeTimelineQuery = (
     query: TimelineQuery,
@@ -26,12 +25,10 @@ export const serializeTimelineQuery = (
         .getOrElse(() => ({})),
 });
 
-export const fetchTask = (url: string, init?: FetchRequestInit) => (
-    new task.Task(() => fetch(url, init))
-);
+export const fetchTask = (url: string, init?: FetchRequestInit) =>
+    new task.Task(() => fetch(url, init));
 
-export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined => (
-    maybeT === null ? undefined : maybeT
-);
+export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
+    maybeT === null ? undefined : maybeT;
 
 export const typecheck = <A>(a: A) => a;

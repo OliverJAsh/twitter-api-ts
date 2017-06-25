@@ -47,16 +47,9 @@ export type fetchFromTwitter = (
         query: {};
     },
 ) => task.Task<FetchResponse>;
-export const fetchFromTwitter: fetchFromTwitter = ({
-    oAuth,
-    endpointPath,
-    method,
-    query,
-}) => {
+export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method, query }) => {
     const baseUrl = `${TWITTER_API_BASE_URL}${endpointPath}`;
-    const paramsStr = Object.keys(query).length > 0
-        ? `?${querystring.stringify(query)}`
-        : '';
+    const paramsStr = Object.keys(query).length > 0 ? `?${querystring.stringify(query)}` : '';
     const url = `${baseUrl}${paramsStr}`;
 
     const authorizationHeader = getOAuthAuthorizationHeader({
@@ -74,7 +67,7 @@ export const fetchFromTwitter: fetchFromTwitter = ({
         formParams: {},
     });
 
-    const headers = { 'Authorization': authorizationHeader };
+    const headers = { Authorization: authorizationHeader };
     return fetchTask(url, {
         method,
         headers,
@@ -83,7 +76,7 @@ export const fetchFromTwitter: fetchFromTwitter = ({
 
 // https://dev.twitter.com/oauth/reference/post/oauth/request_token
 type handleRequestTokenResponse = (response: FetchResponse) => task.Task<RequestTokenResponse>;
-const handleRequestTokenResponse: handleRequestTokenResponse = response => (
+const handleRequestTokenResponse: handleRequestTokenResponse = response =>
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
@@ -93,27 +86,23 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response => (
                 Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
             ).chain(errorResponse =>
                 createErrorResponse<TwitterAPIRequestTokenResponseT>(
-                    new APIErrorResponseErrorResponse(
-                        errorResponse,
-                    ),
+                    new APIErrorResponseErrorResponse(errorResponse),
                 ),
             );
         }
-    })
-);
+    });
 export type getRequestToken = (args: { oAuth: OAuthOptions }) => task.Task<RequestTokenResponse>;
-export const getRequestToken: getRequestToken = ({ oAuth }) => (
+export const getRequestToken: getRequestToken = ({ oAuth }) =>
     fetchFromTwitter({
         oAuth,
         endpointPath: `/oauth/request_token`,
         method: 'POST',
         query: {},
-    }).chain(handleRequestTokenResponse)
-);
+    }).chain(handleRequestTokenResponse);
 
 // https://dev.twitter.com/oauth/reference/post/oauth/access_token
 type handleAccessTokenResponse = (response: FetchResponse) => task.Task<AccessTokenResponse>;
-const handleAccessTokenResponse: handleAccessTokenResponse = response => (
+const handleAccessTokenResponse: handleAccessTokenResponse = response =>
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
@@ -123,51 +112,45 @@ const handleAccessTokenResponse: handleAccessTokenResponse = response => (
                 Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
             ).chain(errorResponse =>
                 createErrorResponse<TwitterAPIAccessTokenResponseT>(
-                    new APIErrorResponseErrorResponse(
-                        errorResponse,
-                    ),
+                    new APIErrorResponseErrorResponse(errorResponse),
                 ),
             );
         }
-    })
-);
+    });
 export type getAccessToken = (args: { oAuth: OAuthOptions }) => task.Task<AccessTokenResponse>;
-export const getAccessToken: getAccessToken = ({ oAuth }) => (
+export const getAccessToken: getAccessToken = ({ oAuth }) =>
     fetchFromTwitter({
         oAuth,
         endpointPath: `/oauth/access_token`,
         method: 'POST',
         query: {},
-    }).chain(handleAccessTokenResponse)
-);
+    }).chain(handleAccessTokenResponse);
 
 // https://dev.twitter.com/rest/reference/get/statuses/home_timeline
-const handleTimelineResponse = (response: FetchResponse) => (
+const handleTimelineResponse = (response: FetchResponse) =>
     new task.Task(() => response.text()).map(text => {
         if (response.ok) {
             return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text);
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
                 Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
-            ).chain(errorResponse => (
+            ).chain(errorResponse =>
                 createErrorResponse<TwitterAPITimelineResponseT>(
                     new APIErrorResponseErrorResponse(errorResponse),
-                )
-            ));
+                ),
+            );
         }
-    })
-);
+    });
 export type fetchHomeTimeline = (
     args: {
         oAuth: OAuthOptions;
         query: TimelineQuery;
     },
 ) => task.Task<TimelineResponse>;
-export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => (
+export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
     fetchFromTwitter({
         oAuth,
         endpointPath: '/1.1/statuses/home_timeline.json',
         method: 'GET',
         query: serializeTimelineQuery(query),
-    }).chain(handleTimelineResponse)
-);
+    }).chain(handleTimelineResponse);

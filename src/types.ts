@@ -25,10 +25,12 @@ export type TweetT = t.TypeOf<typeof Tweet>;
 //
 
 export const TwitterAPIErrorResponse = t.interface({
-    errors: t.array(t.interface({
-        code: t.number,
-        message: t.string,
-    })),
+    errors: t.array(
+        t.interface({
+            code: t.number,
+            message: t.string,
+        }),
+    ),
 });
 export type TwitterAPIErrorResponseT = t.TypeOf<typeof TwitterAPIErrorResponse>;
 
@@ -67,16 +69,13 @@ export class APIErrorResponseErrorResponse {
     // https://github.com/Microsoft/TypeScript/issues/15881
     readonly type: typeof ErrorResponseTypes.APIErrorResponse = ErrorResponseTypes.APIErrorResponse;
 
-    constructor(
-        public apiErrorResponse: TwitterAPIErrorResponseT,
-    ) {}
+    constructor(public apiErrorResponse: TwitterAPIErrorResponseT) {}
 }
 
 export type ErrorResponse = (
-      APIErrorResponseErrorResponse
+    | APIErrorResponseErrorResponse
     | DecodeTypes.ValidationErrorsError
-    | DecodeTypes.ParsingErrorError
-);
+    | DecodeTypes.ParsingErrorError);
 
 export type Response<T> = either.Either<ErrorResponse, T>;
 
@@ -103,6 +102,6 @@ export type TimelineQuery = {
 };
 
 export type SerializedTimelineQuery = {
-    count: number,
-    max_id?: string,
+    count: number;
+    max_id?: string;
 };

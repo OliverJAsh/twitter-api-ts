@@ -7,7 +7,8 @@
     "lint": "tslint --project tsconfig.json --type-check",
     "compile": "tsc",
     "cleanTarget": "rm -rf ./target/*",
-    "prepublish": "yarn cleanTarget && yarn compile && yarn lint"
+    "prepublish": "yarn cleanTarget && yarn compile && yarn lint",
+    "format": "prettier --write --tab-width 4 --print-width 100 --single-quote --trailing-comma all '!(target)/**/*.{ts,js}'"
   },
   "files": [
     "target"
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node-fetch": "1.6.7",
+    "prettier": "1.4.4",
     "tslint": "5.4.3",
     "tslint-language-service": "0.9.6",
     "typescript": "next",
