@@ -46,3 +46,8 @@ export const defaultOAuthOptions = {
     token: option.none,
     tokenSecret: option.none,
 };
+
+export const defaultStatusesHomeTimelineQuery = {
+    count: option.none,
+    maybeMaxId: option.none,
+};

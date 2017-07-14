@@ -10,6 +10,7 @@ import { ENDPOINTS, TWITTER_API_BASE_URL } from './constants';
 import {
     createErrorResponse,
     defaultOAuthOptions,
+    defaultStatusesHomeTimelineQuery,
     fetchTask,
     nullableNullToUndefined,
     serializeStatusesHomeTimelineQuery,
@@ -40,7 +41,7 @@ import {
 import { Left, Right } from 'fp-ts/lib/Either';
 import { InterfaceOf, InterfaceType, Type } from 'io-ts';
 import * as t from 'io-ts';
-import { ErrorResponse } from './types';
+import { ErrorResponse, StatusesHomeTimelineQueryInput } from './types';
 /* tslint:enable no-unused-variable */
 
 export type fetchFromTwitter = (
@@ -150,13 +151,19 @@ const handleTimelineResponse = (response: FetchResponse): Task<TimelineResponse>
 export type fetchHomeTimeline = (
     args: {
         oAuth: OAuthOptionsInput;
-        query: StatusesHomeTimelineQuery;
+        query: StatusesHomeTimelineQueryInput;
     },
 ) => Task<TimelineResponse>;
-export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
-    fetchFromTwitter({
+export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => {
+    const queryWithDefaults: StatusesHomeTimelineQuery = {
+        ...defaultStatusesHomeTimelineQuery,
+        ...query,
+    };
+
+    return fetchFromTwitter({
         oAuth,
         endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
-        query: serializeStatusesHomeTimelineQuery(query),
+        query: serializeStatusesHomeTimelineQuery(queryWithDefaults),
     }).chain(handleTimelineResponse);
+};

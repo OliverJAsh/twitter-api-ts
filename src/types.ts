@@ -109,6 +109,11 @@ export type StatusesHomeTimelineQuery = {
     count: option.Option<number>;
     maybeMaxId: option.Option<string>;
 };
+
+export type StatusesHomeTimelineQueryInput = ObjectClean<
+    ConsiderDefaults<typeof defaultStatusesHomeTimelineQuery, StatusesHomeTimelineQuery>
+>;
+
 export type SerializedStatusesHomeTimelineQuery = {
     count?: number;
     max_id?: string;

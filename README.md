@@ -36,7 +36,6 @@ fetchHomeTimeline({
     },
     query: {
         count: option.some(50),
-        maybeMaxId: option.none,
     },
 })
     // We use fp-ts’ Task type, which is lazy. Running the task returns a
