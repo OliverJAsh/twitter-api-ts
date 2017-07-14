@@ -1,3 +1,4 @@
+import * as Decode from 'decode-ts/target';
 import * as task from 'fp-ts/lib/Task';
 import { Response as FetchResponse } from 'node-fetch';
 import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
@@ -5,7 +6,6 @@ import * as querystring from 'querystring';
 
 import Task = task.Task;
 
-import * as Decode from 'decode-ts/target';
 import { ENDPOINTS, TWITTER_API_BASE_URL } from './constants';
 import {
     createErrorResponse,
