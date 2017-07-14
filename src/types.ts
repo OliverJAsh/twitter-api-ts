@@ -4,6 +4,9 @@ import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import { ObjectClean, ObjectOmit } from 'typelevel-ts';
 
+import Option = option.Option;
+import Either = either.Either;
+
 import { defaultOAuthOptions, defaultStatusesHomeTimelineQuery } from './helpers';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
@@ -79,7 +82,7 @@ export type ErrorResponse = (
     | DecodeTypes.ValidationErrorsError
     | DecodeTypes.ParsingErrorError);
 
-export type Response<T> = either.Either<ErrorResponse, T>;
+export type Response<T> = Either<ErrorResponse, T>;
 
 export type RequestTokenResponse = Response<TwitterAPIRequestTokenResponseT>;
 export type AccessTokenResponse = Response<TwitterAPIAccessTokenResponseT>;
@@ -96,9 +99,9 @@ export type OAuthOptions = {
     consumerKey: string;
     consumerSecret: string;
     callback: string;
-    token: option.Option<string>;
-    tokenSecret: option.Option<string>;
-    verifier: option.Option<string>;
+    token: Option<string>;
+    tokenSecret: Option<string>;
+    verifier: Option<string>;
 };
 
 export type OAuthOptionsInput = ObjectClean<
@@ -106,8 +109,8 @@ export type OAuthOptionsInput = ObjectClean<
 >;
 
 export type StatusesHomeTimelineQuery = {
-    count: option.Option<number>;
-    maybeMaxId: option.Option<string>;
+    count: Option<number>;
+    maybeMaxId: Option<string>;
 };
 
 export type StatusesHomeTimelineQueryInput = ObjectClean<
