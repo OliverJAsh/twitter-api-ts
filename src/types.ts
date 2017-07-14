@@ -106,11 +106,11 @@ export type OAuthOptionsInput = ObjectClean<
 >;
 
 export type StatuesHomeTimelineQuery = {
-    count: number;
+    count: option.Option<number>;
     maybeMaxId: option.Option<string>;
 };
 export type SerializedStatuesHomeTimelineQuery = {
-    count: number;
+    count?: number;
     max_id?: string;
 };
 

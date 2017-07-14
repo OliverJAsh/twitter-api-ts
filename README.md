@@ -35,7 +35,7 @@ fetchHomeTimeline({
         tokenSecret: option.some(TOKEN_SECRET),
     },
     query: {
-        count: 50,
+        count: option.some(50),
         maybeMaxId: option.none,
     },
 })

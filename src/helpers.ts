@@ -22,10 +22,13 @@ import {
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
     either.left<ErrorResponse, T>(errorResponse);
 
+export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
+    maybeT === null ? undefined : maybeT;
+
 export const serializeStatuesHomeTimelineQuery = (
     query: StatuesHomeTimelineQuery,
 ): SerializedStatuesHomeTimelineQuery => ({
-    count: query.count,
+    count: nullableNullToUndefined(query.count.toNullable()),
     ...query.maybeMaxId
         .map((maxId): Pick<SerializedStatuesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
         .getOrElse(() => ({})),
@@ -33,9 +36,6 @@ export const serializeStatuesHomeTimelineQuery = (
 
 export const fetchTask = (url: string, init?: FetchRequestInit) =>
     new task.Task(() => fetch(url, init));
-
-export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
-    maybeT === null ? undefined : maybeT;
 
 export const typecheck = <A>(a: A) => a;
 
