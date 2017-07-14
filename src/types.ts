@@ -2,6 +2,9 @@ import * as DecodeTypes from 'decode-ts/target/types';
 import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
+import { ObjectClean, ObjectOmit } from 'typelevel-ts';
+
+import { defaultOAuthOptions, defaultStatusesHomeTimelineQuery } from './helpers';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 
@@ -86,6 +89,9 @@ export type TimelineResponse = Response<TwitterAPITimelineResponseT>;
 // Other
 //
 
+export type ConsiderDefaults<Defaults, All extends Defaults> = ObjectOmit<All, keyof Defaults> &
+    Partial<Defaults>;
+
 export type OAuthOptions = {
     consumerKey: string;
     consumerSecret: string;
@@ -94,6 +100,10 @@ export type OAuthOptions = {
     tokenSecret: option.Option<string>;
     verifier: option.Option<string>;
 };
+
+export type OAuthOptionsInput = ObjectClean<
+    ConsiderDefaults<typeof defaultOAuthOptions, OAuthOptions>
+>;
 
 export type StatuesHomeTimelineQuery = {
     count: number;

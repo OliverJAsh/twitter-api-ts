@@ -33,7 +33,6 @@ fetchHomeTimeline({
         callback: CALLBACK,
         token: option.some(TOKEN),
         tokenSecret: option.some(TOKEN_SECRET),
-        verifier: option.none,
     },
     query: {
         count: 50,

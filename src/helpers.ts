@@ -1,4 +1,5 @@
 import * as either from 'fp-ts/lib/Either';
+import * as option from 'fp-ts/lib/Option';
 import * as task from 'fp-ts/lib/Task';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 
@@ -37,3 +38,11 @@ export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
     maybeT === null ? undefined : maybeT;
 
 export const typecheck = <A>(a: A) => a;
+
+// Defaults
+
+export const defaultOAuthOptions = {
+    verifier: option.none,
+    token: option.none,
+    tokenSecret: option.none,
+};

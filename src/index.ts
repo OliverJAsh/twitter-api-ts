@@ -9,6 +9,7 @@ import * as Decode from 'decode-ts/target';
 import { ENDPOINTS, TWITTER_API_BASE_URL } from './constants';
 import {
     createErrorResponse,
+    defaultOAuthOptions,
     fetchTask,
     nullableNullToUndefined,
     serializeStatuesHomeTimelineQuery,
@@ -18,6 +19,7 @@ import {
     AccessTokenResponse,
     APIErrorResponseErrorResponse,
     OAuthOptions,
+    OAuthOptionsInput,
     RequestMethod,
     RequestTokenResponse,
     Response,
@@ -26,6 +28,7 @@ import {
     TwitterAPIAccessTokenResponse,
     TwitterAPIAccessTokenResponseT,
     TwitterAPIErrorResponse,
+    TwitterAPIErrorResponseT,
     TwitterAPIRequestTokenResponse,
     TwitterAPIRequestTokenResponseT,
     TwitterAPITimelineResponse,
@@ -37,31 +40,32 @@ import {
 import { Left, Right } from 'fp-ts/lib/Either';
 import { InterfaceOf, InterfaceType, Type } from 'io-ts';
 import * as t from 'io-ts';
-import { TwitterAPIErrorResponseT } from './types';
 import { ErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 
 export type fetchFromTwitter = (
     args: {
-        oAuth: OAuthOptions;
+        oAuth: OAuthOptionsInput;
         endpointPath: ENDPOINTS;
         method: RequestMethod;
         query: {};
     },
 ) => Task<FetchResponse>;
 export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method, query }) => {
+    const oAuthWithDefaults: OAuthOptions = { ...defaultOAuthOptions, ...oAuth };
+
     const baseUrl = `${TWITTER_API_BASE_URL}${endpointPath}`;
     const paramsStr = Object.keys(query).length > 0 ? `?${querystring.stringify(query)}` : '';
     const url = `${baseUrl}${paramsStr}`;
 
     const authorizationHeader = getOAuthAuthorizationHeader({
         oAuth: {
-            consumerKey: oAuth.consumerKey,
-            consumerSecret: oAuth.consumerSecret,
-            callback: oAuth.callback,
-            token: nullableNullToUndefined(oAuth.token.toNullable()),
-            tokenSecret: nullableNullToUndefined(oAuth.tokenSecret.toNullable()),
-            verifier: nullableNullToUndefined(oAuth.verifier.toNullable()),
+            consumerKey: oAuthWithDefaults.consumerKey,
+            consumerSecret: oAuthWithDefaults.consumerSecret,
+            callback: oAuthWithDefaults.callback,
+            token: nullableNullToUndefined(oAuthWithDefaults.token.toNullable()),
+            tokenSecret: nullableNullToUndefined(oAuthWithDefaults.tokenSecret.toNullable()),
+            verifier: nullableNullToUndefined(oAuthWithDefaults.verifier.toNullable()),
         },
         url,
         method,
@@ -93,7 +97,7 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response =>
             );
         }
     });
-export type getRequestToken = (args: { oAuth: OAuthOptions }) => Task<RequestTokenResponse>;
+export type getRequestToken = (args: { oAuth: OAuthOptionsInput }) => Task<RequestTokenResponse>;
 export const getRequestToken: getRequestToken = ({ oAuth }) =>
     fetchFromTwitter({
         oAuth,
@@ -119,7 +123,7 @@ const handleAccessTokenResponse: handleAccessTokenResponse = response =>
             );
         }
     });
-export type getAccessToken = (args: { oAuth: OAuthOptions }) => Task<AccessTokenResponse>;
+export type getAccessToken = (args: { oAuth: OAuthOptionsInput }) => Task<AccessTokenResponse>;
 export const getAccessToken: getAccessToken = ({ oAuth }) =>
     fetchFromTwitter({
         oAuth,
@@ -145,7 +149,7 @@ const handleTimelineResponse = (response: FetchResponse): Task<TimelineResponse>
     });
 export type fetchHomeTimeline = (
     args: {
-        oAuth: OAuthOptions;
+        oAuth: OAuthOptionsInput;
         query: StatuesHomeTimelineQuery;
     },
 ) => Task<TimelineResponse>;
