@@ -2,7 +2,7 @@ import * as DecodeTypes from 'decode-ts/target/types';
 import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
-import { ObjectClean, ObjectOmit } from 'typelevel-ts';
+import { ObjectClean, ObjectDiff } from 'typelevel-ts';
 
 import Option = option.Option;
 import Either = either.Either;
@@ -92,9 +92,6 @@ export type TimelineResponse = Response<TwitterAPITimelineResponseT>;
 // Other
 //
 
-export type ConsiderDefaults<Defaults, All extends Defaults> = ObjectOmit<All, keyof Defaults> &
-    Partial<Defaults>;
-
 export type OAuthOptions = {
     consumerKey: string;
     consumerSecret: string;
@@ -104,9 +101,7 @@ export type OAuthOptions = {
     verifier: Option<string>;
 };
 
-export type OAuthOptionsInput = ObjectClean<
-    ConsiderDefaults<typeof defaultOAuthOptions, OAuthOptions>
->;
+export type OAuthOptionsInput = ObjectClean<ObjectDiff<OAuthOptions, typeof defaultOAuthOptions>>;
 
 export type StatusesHomeTimelineQuery = {
     count: Option<number>;
@@ -114,7 +109,7 @@ export type StatusesHomeTimelineQuery = {
 };
 
 export type StatusesHomeTimelineQueryInput = ObjectClean<
-    ConsiderDefaults<typeof defaultStatusesHomeTimelineQuery, StatusesHomeTimelineQuery>
+    ObjectDiff<StatusesHomeTimelineQuery, typeof defaultStatusesHomeTimelineQuery>
 >;
 
 export type SerializedStatusesHomeTimelineQuery = {
