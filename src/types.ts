@@ -64,8 +64,7 @@ export type TwitterAPITimelineResponseT = t.TypeOf<typeof TwitterAPITimelineResp
 
 export enum ErrorResponseTypes {
     APIErrorResponse = 'APIErrorResponse',
-    ValidationErrors = 'ValidationErrors',
-    ParsingError = 'ParsingError',
+    DecodeError = 'DecodeError',
 }
 
 export class APIErrorResponseErrorResponse {
@@ -77,10 +76,18 @@ export class APIErrorResponseErrorResponse {
     constructor(public apiErrorResponse: TwitterAPIErrorResponseT) {}
 }
 
-export type ErrorResponse = (
-    | APIErrorResponseErrorResponse
-    | DecodeTypes.ValidationErrorsError
-    | DecodeTypes.ParsingErrorError);
+export class DecodeErrorErrorResponse {
+    // Literal type annotation required due to bug whereby literal types are
+    // lost in declarations.
+    // https://github.com/Microsoft/TypeScript/issues/15881
+    readonly type: typeof ErrorResponseTypes.DecodeError = ErrorResponseTypes.DecodeError;
+
+    constructor(
+        public decodeError: DecodeTypes.ValidationErrorsError | DecodeTypes.ParsingErrorError,
+    ) {}
+}
+
+export type ErrorResponse = (APIErrorResponseErrorResponse | DecodeErrorErrorResponse);
 
 export type Response<T> = Either<ErrorResponse, T>;
 

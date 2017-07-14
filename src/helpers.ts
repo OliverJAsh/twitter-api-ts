@@ -9,7 +9,7 @@ import Task = task.Task;
 /* tslint:disable no-unused-variable */
 import * as DecodeTypes from 'decode-ts/target/types';
 import { Response as FetchResponse } from 'node-fetch';
-import { APIErrorResponseErrorResponse } from './types';
+import { APIErrorResponseErrorResponse, DecodeErrorErrorResponse } from './types';
 /* tslint:enable no-unused-variable */
 
 import {

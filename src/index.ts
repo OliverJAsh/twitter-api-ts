@@ -27,13 +27,10 @@ import {
     StatusesHomeTimelineQuery,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
-    TwitterAPIAccessTokenResponseT,
     TwitterAPIErrorResponse,
     TwitterAPIErrorResponseT,
     TwitterAPIRequestTokenResponse,
-    TwitterAPIRequestTokenResponseT,
     TwitterAPITimelineResponse,
-    TwitterAPITimelineResponseT,
 } from './types';
 
 // These are only needed for emitting TypeScript declarations
@@ -41,7 +38,7 @@ import {
 import { Left, Right } from 'fp-ts/lib/Either';
 import { InterfaceOf, InterfaceType, Type } from 'io-ts';
 import * as t from 'io-ts';
-import { ErrorResponse, StatusesHomeTimelineQueryInput } from './types';
+import { DecodeErrorErrorResponse, ErrorResponse, StatusesHomeTimelineQueryInput } from './types';
 /* tslint:enable no-unused-variable */
 
 export type fetchFromTwitter = (
@@ -87,14 +84,16 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return Decode.validateType(TwitterAPIRequestTokenResponse)(parsed);
+            return Decode.validateType(TwitterAPIRequestTokenResponse)(parsed).mapLeft(
+                decodeError => new DecodeErrorErrorResponse(decodeError),
+            );
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
-            ).chain(errorResponse =>
-                createErrorResponse<TwitterAPIRequestTokenResponseT>(
-                    new APIErrorResponseErrorResponse(errorResponse),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
+                    decodeError => new DecodeErrorErrorResponse(decodeError),
                 ),
+            ).chain(errorResponse =>
+                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
             );
         }
     });
@@ -113,14 +112,16 @@ const handleAccessTokenResponse: handleAccessTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return Decode.validateType(TwitterAPIAccessTokenResponse)(parsed);
+            return Decode.validateType(TwitterAPIAccessTokenResponse)(parsed).mapLeft(
+                decodeError => new DecodeErrorErrorResponse(decodeError),
+            );
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
-            ).chain(errorResponse =>
-                createErrorResponse<TwitterAPIAccessTokenResponseT>(
-                    new APIErrorResponseErrorResponse(errorResponse),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
+                    decodeError => new DecodeErrorErrorResponse(decodeError),
                 ),
+            ).chain(errorResponse =>
+                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
             );
         }
     });
@@ -137,14 +138,16 @@ export const getAccessToken: getAccessToken = ({ oAuth }) =>
 const handleTimelineResponse = (response: FetchResponse): Task<TimelineResponse> =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
-            return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text);
+            return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text).mapLeft(
+                decodeError => new DecodeErrorErrorResponse(decodeError),
+            );
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text),
-            ).chain(errorResponse =>
-                createErrorResponse<TwitterAPITimelineResponseT>(
-                    new APIErrorResponseErrorResponse(errorResponse),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
+                    decodeError => new DecodeErrorErrorResponse(decodeError),
                 ),
+            ).chain(errorResponse =>
+                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
             );
         }
     });
