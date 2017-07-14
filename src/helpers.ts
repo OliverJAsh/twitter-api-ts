@@ -3,6 +3,7 @@ import * as option from 'fp-ts/lib/Option';
 import * as task from 'fp-ts/lib/Task';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 
+import Task = task.Task;
 import Either = either.Either;
 
 // These are only needed for emitting TypeScript declarations
@@ -34,8 +35,7 @@ export const serializeStatusesHomeTimelineQuery = (
         .getOrElse(() => ({})),
 });
 
-export const fetchTask = (url: string, init?: FetchRequestInit) =>
-    new task.Task(() => fetch(url, init));
+export const fetchTask = (url: string, init?: FetchRequestInit) => new Task(() => fetch(url, init));
 
 export const typecheck = <A>(a: A) => a;
 
