@@ -2,7 +2,6 @@ import * as DecodeTypes from 'decode-ts/target/types';
 import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
-import { Enum } from 'typescript-string-enums';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 
@@ -57,11 +56,11 @@ export type TwitterAPITimelineResponseT = t.TypeOf<typeof TwitterAPITimelineResp
 // Full responses (either success or error)
 //
 
-export const ErrorResponseTypes = Enum(
-    'APIErrorResponse',
-    DecodeTypes.ErrorTypes.ValidationErrors,
-    DecodeTypes.ErrorTypes.ParsingError,
-);
+export enum ErrorResponseTypes {
+    APIErrorResponse = 'APIErrorResponse',
+    ValidationErrors = 'ValidationErrors',
+    ParsingError = 'ParsingError',
+}
 
 export class APIErrorResponseErrorResponse {
     // Literal type annotation required due to bug whereby literal types are

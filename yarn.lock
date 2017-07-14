@@ -132,12 +132,13 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-decode-ts@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/decode-ts/-/decode-ts-0.0.2.tgz#f236de94e0e3b93d418e1f9eaf04931dac388108"
+decode-ts@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/decode-ts/-/decode-ts-0.0.4.tgz#7879ebacaa2406f174402fa294310d926c6d7edf"
   dependencies:
-    fp-ts "^0.3.1"
-    io-ts "^0.4.0"
+    fp-ts "0.4.0"
+    io-ts "0.6.0"
+    io-ts-reporters "0.0.14"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -187,9 +188,9 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-fp-ts@0.3.1, fp-ts@^0.3.0, fp-ts@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.3.1.tgz#4c49ab65084918ec01997af21e18caab21f72f21"
+fp-ts@0.4.0, fp-ts@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.4.0.tgz#5ee9ca4e9e4aa4ad7ac0ac596790c8ac0601757d"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -269,11 +270,18 @@ inherits@2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
-io-ts@0.4.0, io-ts@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.4.0.tgz#f95133cd95b9e08b7bc04991bdce3180a10b189b"
+io-ts-reporters@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/io-ts-reporters/-/io-ts-reporters-0.0.14.tgz#52bb8c81aeab605943db6008c02480d4f820a49f"
   dependencies:
-    fp-ts "^0.3.0"
+    fp-ts "0.4.0"
+    io-ts "0.6.0"
+
+io-ts@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.6.0.tgz#ff974fb668cafd29949cdecdda3cbcfffb69e75c"
+  dependencies:
+    fp-ts "^0.4.0"
 
 is-stream@^1.0.1:
   version "1.1.0"
@@ -504,13 +512,9 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-typescript-string-enums@0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/typescript-string-enums/-/typescript-string-enums-0.3.4.tgz#fb2fde9f891adcc15344e1615e61a4d1a6d6e693"
-
-typescript@next:
-  version "2.4.0-dev.20170609"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.0-dev.20170609.tgz#17dc560bf9817e27d002ed49330d5421487203d5"
+typescript@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.1.tgz#c3ccb16ddaa0b2314de031e7e6fee89e5ba346bc"
 
 uuid@^3.0.0:
   version "3.0.1"

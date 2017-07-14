@@ -14,9 +14,9 @@
     "target"
   ],
   "dependencies": {
-    "decode-ts": "0.0.2",
-    "fp-ts": "0.3.1",
-    "io-ts": "0.4.0",
+    "decode-ts": "0.0.4",
+    "fp-ts": "0.4.0",
+    "io-ts": "0.6.0",
     "node-fetch": "1.7.1",
     "oauth-authorization-header": "0.0.5"
   },
@@ -25,7 +25,6 @@
     "prettier": "1.4.4",
     "tslint": "5.4.3",
     "tslint-language-service": "0.9.6",
-    "typescript": "next",
-    "typescript-string-enums": "0.3.4"
+    "typescript": "2.4.1"
   }
 }
