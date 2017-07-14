@@ -18,14 +18,14 @@
     "fp-ts": "0.4.0",
     "io-ts": "0.6.0",
     "node-fetch": "1.7.1",
-    "oauth-authorization-header": "0.0.5"
+    "oauth-authorization-header": "0.0.5",
+    "typelevel-ts": "0.1.2"
   },
   "devDependencies": {
     "@types/node-fetch": "1.6.7",
     "prettier": "1.4.4",
     "tslint": "5.5.0",
     "tslint-language-service": "0.9.6",
-    "typelevel-ts": "0.1.2",
     "typescript": "2.4.1"
   }
 }
