@@ -4,7 +4,6 @@ import * as task from 'fp-ts/lib/Task';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 
 import Task = task.Task;
-import Either = either.Either;
 
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
