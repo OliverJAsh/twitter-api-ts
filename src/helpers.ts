@@ -20,7 +20,7 @@ import {
 } from './types';
 
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
-    either.left<ErrorResponse, T>(errorResponse);
+    either.left(errorResponse);
 
 export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
     maybeT === null ? undefined : maybeT;
