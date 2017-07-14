@@ -15,8 +15,8 @@ import { APIErrorResponseErrorResponse } from './types';
 import {
     ErrorResponse,
     Response,
-    SerializedStatuesHomeTimelineQuery,
-    StatuesHomeTimelineQuery,
+    SerializedStatusesHomeTimelineQuery,
+    StatusesHomeTimelineQuery,
 } from './types';
 
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
@@ -25,12 +25,12 @@ export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T
 export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
     maybeT === null ? undefined : maybeT;
 
-export const serializeStatuesHomeTimelineQuery = (
-    query: StatuesHomeTimelineQuery,
-): SerializedStatuesHomeTimelineQuery => ({
+export const serializeStatusesHomeTimelineQuery = (
+    query: StatusesHomeTimelineQuery,
+): SerializedStatusesHomeTimelineQuery => ({
     count: nullableNullToUndefined(query.count.toNullable()),
     ...query.maybeMaxId
-        .map((maxId): Pick<SerializedStatuesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
+        .map((maxId): Pick<SerializedStatusesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
         .getOrElse(() => ({})),
 });
 

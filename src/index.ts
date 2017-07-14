@@ -12,7 +12,7 @@ import {
     defaultOAuthOptions,
     fetchTask,
     nullableNullToUndefined,
-    serializeStatuesHomeTimelineQuery,
+    serializeStatusesHomeTimelineQuery,
     typecheck,
 } from './helpers';
 import {
@@ -23,7 +23,7 @@ import {
     RequestMethod,
     RequestTokenResponse,
     Response,
-    StatuesHomeTimelineQuery,
+    StatusesHomeTimelineQuery,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
     TwitterAPIAccessTokenResponseT,
@@ -150,7 +150,7 @@ const handleTimelineResponse = (response: FetchResponse): Task<TimelineResponse>
 export type fetchHomeTimeline = (
     args: {
         oAuth: OAuthOptionsInput;
-        query: StatuesHomeTimelineQuery;
+        query: StatusesHomeTimelineQuery;
     },
 ) => Task<TimelineResponse>;
 export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
@@ -158,5 +158,5 @@ export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) =>
         oAuth,
         endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
-        query: serializeStatuesHomeTimelineQuery(query),
+        query: serializeStatusesHomeTimelineQuery(query),
     }).chain(handleTimelineResponse);

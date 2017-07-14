@@ -105,11 +105,11 @@ export type OAuthOptionsInput = ObjectClean<
     ConsiderDefaults<typeof defaultOAuthOptions, OAuthOptions>
 >;
 
-export type StatuesHomeTimelineQuery = {
+export type StatusesHomeTimelineQuery = {
     count: option.Option<number>;
     maybeMaxId: option.Option<string>;
 };
-export type SerializedStatuesHomeTimelineQuery = {
+export type SerializedStatusesHomeTimelineQuery = {
     count?: number;
     max_id?: string;
 };
