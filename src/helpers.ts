@@ -3,7 +3,7 @@ import * as option from 'fp-ts/lib/Option';
 import * as task from 'fp-ts/lib/Task';
 import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
 
-export type Either<L, A> = either.Either<L, A>;
+import Either = either.Either;
 
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
