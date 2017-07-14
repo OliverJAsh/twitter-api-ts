@@ -7,7 +7,7 @@
     "lint": "tslint --project tsconfig.json --type-check",
     "compile": "tsc",
     "cleanTarget": "rm -rf ./target/*",
-    "prepublish": "yarn cleanTarget && yarn compile && yarn lint",
+    "prepublish": "npm run cleanTarget && npm run compile && npm run lint",
     "format": "prettier --write --tab-width 4 --print-width 100 --single-quote --trailing-comma all '!(target)/**/*.{ts,js}'"
   },
   "files": [
