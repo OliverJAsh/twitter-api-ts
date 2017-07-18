@@ -21,6 +21,8 @@ import {
 import {
     AccessTokenResponse,
     APIErrorResponseErrorResponse,
+    DecodeErrorErrorResponse,
+    ErrorResponse,
     JavaScriptErrorErrorResponse,
     OAuthOptions,
     OAuthOptionsInput,
@@ -28,6 +30,7 @@ import {
     RequestTokenResponse,
     Response,
     StatusesHomeTimelineQuery,
+    StatusesHomeTimelineQueryInput,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
     TwitterAPIErrorResponse,
@@ -41,7 +44,6 @@ import {
 import { Left, Right } from 'fp-ts/lib/Either';
 import { InterfaceOf, InterfaceType, Type } from 'io-ts';
 import * as t from 'io-ts';
-import { DecodeErrorErrorResponse, ErrorResponse, StatusesHomeTimelineQueryInput } from './types';
 /* tslint:enable no-unused-variable */
 
 export type fetchFromTwitter = (
