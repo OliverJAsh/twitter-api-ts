@@ -13,11 +13,11 @@ import {
     createErrorResponse,
     defaultOAuthOptions,
     defaultStatusesHomeTimelineQuery,
-    fetchTaskEither,
     nullableNullToUndefined,
     serializeStatusesHomeTimelineQuery,
     typecheck,
 } from './helpers';
+import { fetchTaskEither } from './helpers/fetch';
 import {
     AccessTokenResponse,
     APIErrorResponseErrorResponse,
