@@ -14,6 +14,7 @@ import {
 
 import {
     ErrorResponse,
+    OAuthOptions,
     Response,
     SerializedStatusesHomeTimelineQuery,
     StatusesHomeTimelineQuery,
@@ -38,13 +39,16 @@ export const typecheck = <A>(a: A) => a;
 
 // Defaults
 
-export const defaultOAuthOptions = {
-    verifier: option.none,
-    token: option.none,
-    tokenSecret: option.none,
+export const defaultOAuthOptions: Pick<OAuthOptions, 'verifier' | 'token' | 'tokenSecret'> = {
+    verifier: option.zero(),
+    token: option.zero(),
+    tokenSecret: option.zero(),
 };
 
-export const defaultStatusesHomeTimelineQuery = {
-    count: option.none,
-    maybeMaxId: option.none,
+export const defaultStatusesHomeTimelineQuery: Pick<
+    StatusesHomeTimelineQuery,
+    'count' | 'maybeMaxId'
+> = {
+    count: option.zero(),
+    maybeMaxId: option.zero(),
 };
