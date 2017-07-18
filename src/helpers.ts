@@ -1,15 +1,21 @@
 import * as either from 'fp-ts/lib/Either';
+import { Lazy } from 'fp-ts/lib/function';
 import * as option from 'fp-ts/lib/Option';
 import * as task from 'fp-ts/lib/Task';
-import fetch, { RequestInit as FetchRequestInit } from 'node-fetch';
+import * as fetch from 'node-fetch';
 
 import Task = task.Task;
+import Either = either.Either;
 
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
 import * as DecodeTypes from 'decode-ts/target/types';
 import { Response as FetchResponse } from 'node-fetch';
-import { APIErrorResponseErrorResponse, DecodeErrorErrorResponse } from './types';
+import {
+    APIErrorResponseErrorResponse,
+    DecodeErrorErrorResponse,
+    JavaScriptErrorErrorResponse,
+} from './types';
 /* tslint:enable no-unused-variable */
 
 import {
@@ -34,7 +40,27 @@ export const serializeStatusesHomeTimelineQuery = (
         .getOrElse(() => ({})),
 });
 
-export const fetchTask = (url: string, init?: FetchRequestInit) => new Task(() => fetch(url, init));
+export function eitherTryCatchAsync<E, A>(f: Lazy<Promise<A>>): Promise<Either<E, A>> {
+    try {
+        return f().then(a => either.right<E, A>(a), e => either.left<E, A>(e));
+    } catch (e) {
+        return Promise.resolve(either.left<E, A>(e));
+    }
+}
+
+export type fetchPromiseEither = (
+    url: string,
+    init?: fetch.RequestInit,
+) => Promise<Either<Error, fetch.Response>>;
+export const fetchPromiseEither: fetchPromiseEither = (url, init) =>
+    eitherTryCatchAsync(() => fetch.default(url, init));
+
+export type fetchTaskEither = (
+    url: string,
+    init?: fetch.RequestInit,
+) => Task<Either<Error, fetch.Response>>;
+export const fetchTaskEither: fetchTaskEither = (url, init) =>
+    new Task(() => fetchPromiseEither(url, init));
 
 export const typecheck = <A>(a: A) => a;
 

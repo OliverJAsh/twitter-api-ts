@@ -1,9 +1,11 @@
 import * as Decode from 'decode-ts/target';
+import * as either from 'fp-ts/lib/Either';
 import * as task from 'fp-ts/lib/Task';
-import { Response as FetchResponse } from 'node-fetch';
+import * as fetch from 'node-fetch';
 import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
 import * as querystring from 'querystring';
 
+import Either = either.Either;
 import Task = task.Task;
 
 import { ENDPOINTS, TWITTER_API_BASE_URL } from './constants';
@@ -11,7 +13,7 @@ import {
     createErrorResponse,
     defaultOAuthOptions,
     defaultStatusesHomeTimelineQuery,
-    fetchTask,
+    fetchTaskEither,
     nullableNullToUndefined,
     serializeStatusesHomeTimelineQuery,
     typecheck,
@@ -19,6 +21,7 @@ import {
 import {
     AccessTokenResponse,
     APIErrorResponseErrorResponse,
+    JavaScriptErrorErrorResponse,
     OAuthOptions,
     OAuthOptionsInput,
     RequestMethod,
@@ -48,7 +51,7 @@ export type fetchFromTwitter = (
         method: RequestMethod;
         query: {};
     },
-) => Task<FetchResponse>;
+) => Task<Either<ErrorResponse, fetch.Response>>;
 export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method, query }) => {
     const oAuthWithDefaults: OAuthOptions = { ...defaultOAuthOptions, ...oAuth };
 
@@ -72,14 +75,14 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
     });
 
     const headers = { Authorization: authorizationHeader };
-    return fetchTask(url, {
+    return fetchTaskEither(url, {
         method,
         headers,
-    });
+    }).map(e => e.mapLeft(error => new JavaScriptErrorErrorResponse(error)));
 };
 
 // https://dev.twitter.com/oauth/reference/post/oauth/request_token
-type handleRequestTokenResponse = (response: FetchResponse) => Task<RequestTokenResponse>;
+type handleRequestTokenResponse = (response: fetch.Response) => Task<RequestTokenResponse>;
 const handleRequestTokenResponse: handleRequestTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
@@ -104,10 +107,10 @@ export const getRequestToken: getRequestToken = ({ oAuth }) =>
         endpointPath: ENDPOINTS.OAuthRequestToken,
         method: 'POST',
         query: {},
-    }).chain(handleRequestTokenResponse);
+    }).chain(e => e.fold(l => task.of(either.left(l)), handleRequestTokenResponse));
 
 // https://dev.twitter.com/oauth/reference/post/oauth/access_token
-type handleAccessTokenResponse = (response: FetchResponse) => Task<AccessTokenResponse>;
+type handleAccessTokenResponse = (response: fetch.Response) => Task<AccessTokenResponse>;
 const handleAccessTokenResponse: handleAccessTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
@@ -132,10 +135,10 @@ export const getAccessToken: getAccessToken = ({ oAuth }) =>
         endpointPath: ENDPOINTS.OAuthAccessToken,
         method: 'POST',
         query: {},
-    }).chain(handleAccessTokenResponse);
+    }).chain(e => e.fold(l => task.of(either.left(l)), handleAccessTokenResponse));
 
 // https://dev.twitter.com/rest/reference/get/statuses/home_timeline
-const handleTimelineResponse = (response: FetchResponse): Task<TimelineResponse> =>
+const handleTimelineResponse = (response: fetch.Response): Task<TimelineResponse> =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
             return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text).mapLeft(
@@ -168,5 +171,5 @@ export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => {
         endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
         query: serializeStatusesHomeTimelineQuery(queryWithDefaults),
-    }).chain(handleTimelineResponse);
+    }).chain(e => e.fold(l => task.of(either.left(l)), handleTimelineResponse));
 };
