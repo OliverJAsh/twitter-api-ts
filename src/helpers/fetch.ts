@@ -12,7 +12,7 @@ export type fetchPromiseEither = (
     init?: fetch.RequestInit,
 ) => Promise<Either<Error, fetch.Response>>;
 export const fetchPromiseEither: fetchPromiseEither = (url, init) =>
-    eitherTryCatchAsync(() => fetch.default(url, init));
+    eitherTryCatchAsync(() => fetch.default(url, init), (error): Error => error)();
 
 export type fetchTaskEither = (
     url: string,
