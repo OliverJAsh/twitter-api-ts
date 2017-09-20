@@ -49,7 +49,9 @@
             "allow-leading-underscore",
             // e.g. for io-ts types
             "allow-pascal-case"
-        ]
+        ],
+        "no-import-side-effect": true,
+        "no-duplicate-imports": true
 
         // Handled by prettier
         // "trailing-comma": [true, { "multiline": "always" }]
