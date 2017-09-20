@@ -19,13 +19,13 @@
     "io-ts": "^0.6.0",
     "node-fetch": "^1.7.1",
     "oauth-authorization-header": "^0.0.5",
-    "typelevel-ts": "^0.1.2"
+    "typelevel-ts": "^0.2.0"
   },
   "devDependencies": {
     "@types/node-fetch": "1.6.7",
     "prettier": "1.5.3",
     "tslint": "5.5.0",
     "tslint-language-service": "0.9.6",
-    "typescript": "2.4.2"
+    "typescript": "^2.5.2"
   }
 }
