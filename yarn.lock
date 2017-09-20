@@ -187,8 +187,8 @@ form-data@~2.1.1:
     mime-types "^2.1.12"
 
 fp-ts@^0.4.0, fp-ts@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.4.3.tgz#03877fb7e5aa3c04d0694e9371543e9dbfe3ef6f"
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.4.6.tgz#43934cf5ae405e6a4726f1f6d216ea1c985672e8"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -272,8 +272,8 @@ io-ts-reporters@0.0.15:
     io-ts "^0.6.1"
 
 io-ts@^0.6.0, io-ts@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.6.1.tgz#dcde35600bca783296554cc9041aa56f332ed33a"
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.6.2.tgz#b9e15b22cb47bf3319c116fe0faf0c30c9cfb374"
   dependencies:
     fp-ts "^0.4.0"
 
