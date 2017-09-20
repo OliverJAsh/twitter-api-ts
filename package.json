@@ -22,10 +22,10 @@
     "typelevel-ts": "^0.2.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "1.6.7",
-    "prettier": "1.5.3",
-    "tslint": "5.5.0",
-    "tslint-language-service": "0.9.6",
+    "@types/node-fetch": "^1.6.7",
+    "prettier": "^1.5.3",
+    "tslint": "^5.5.0",
+    "tslint-language-service": "^0.9.6",
     "typescript": "^2.5.2"
   }
 }
