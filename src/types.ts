@@ -97,10 +97,10 @@ export class JavaScriptErrorErrorResponse {
     constructor(public error: Error) {}
 }
 
-export type ErrorResponse = (
+export type ErrorResponse =
     | JavaScriptErrorErrorResponse
     | APIErrorResponseErrorResponse
-    | DecodeErrorErrorResponse);
+    | DecodeErrorErrorResponse;
 
 export type Response<T> = Either<ErrorResponse, T>;
 
