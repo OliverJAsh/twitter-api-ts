@@ -12,6 +12,7 @@ import {
 } from './types';
 /* tslint:enable no-unused-variable */
 
+// tslint:disable-next-line no-duplicate-imports
 import {
     ErrorResponse,
     OAuthOptions,
