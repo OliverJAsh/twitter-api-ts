@@ -130,13 +130,13 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-decode-ts@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/decode-ts/-/decode-ts-0.0.5.tgz#65a71d977d31deb81ebe42eb3da75dd079345cfd"
+decode-ts@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/decode-ts/-/decode-ts-0.0.6.tgz#683f308d4f682b8422cae92271046997457f2b71"
   dependencies:
-    fp-ts "^0.4.0"
-    io-ts "^0.6.0"
-    io-ts-reporters "0.0.15"
+    fp-ts "^0.5.2"
+    io-ts "^0.7.0"
+    io-ts-reporters "^0.0.16"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -186,9 +186,9 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-fp-ts@^0.4.0, fp-ts@^0.4.3:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.4.6.tgz#43934cf5ae405e6a4726f1f6d216ea1c985672e8"
+fp-ts@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-0.5.2.tgz#b121af614725fd5dbdcd67d1df41e5e6f89ea349"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -264,18 +264,18 @@ inherits@2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
-io-ts-reporters@0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/io-ts-reporters/-/io-ts-reporters-0.0.15.tgz#5ca91e7282c3313d93ea595b1d2f6d4e38917c13"
+io-ts-reporters@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/io-ts-reporters/-/io-ts-reporters-0.0.16.tgz#d2cc0a467e5bd3cb65aeb0898329d6ed7b265096"
   dependencies:
-    fp-ts "^0.4.3"
-    io-ts "^0.6.1"
+    fp-ts "^0.5.2"
+    io-ts "^0.7.0"
 
-io-ts@^0.6.0, io-ts@^0.6.1:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.6.2.tgz#b9e15b22cb47bf3319c116fe0faf0c30c9cfb374"
+io-ts@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-0.7.0.tgz#b24978b74a252ba9da18098a77666b0b31a846f8"
   dependencies:
-    fp-ts "^0.4.0"
+    fp-ts "^0.5.2"
 
 is-stream@^1.0.1:
   version "1.1.0"

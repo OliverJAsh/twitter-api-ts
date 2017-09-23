@@ -14,9 +14,9 @@
     "target"
   ],
   "dependencies": {
-    "decode-ts": "^0.0.5",
-    "fp-ts": "^0.4.0",
-    "io-ts": "^0.6.0",
+    "decode-ts": "^0.0.6",
+    "fp-ts": "^0.5.2",
+    "io-ts": "^0.7.0",
     "node-fetch": "^1.7.1",
     "oauth-authorization-header": "^0.0.5",
     "typelevel-ts": "^0.2.0"
