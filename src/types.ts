@@ -15,6 +15,7 @@ export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 // Entities
 //
 
+// https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object
 export const User = t.interface({
     id_str: t.string,
     screen_name: t.string,
