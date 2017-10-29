@@ -20,6 +20,7 @@ import {
 import { fetchTaskEither } from './helpers/fetch';
 import {
     AccessTokenResponse,
+    AccountVerifyCredentialsResponse,
     APIErrorResponseErrorResponse,
     DecodeErrorErrorResponse,
     ErrorResponse,
@@ -33,6 +34,7 @@ import {
     StatusesHomeTimelineQueryInput,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
+    TwitterAPIAccountVerifyCredentials,
     TwitterAPIErrorResponse,
     TwitterAPIErrorResponseT,
     TwitterAPIRequestTokenResponse,
@@ -177,3 +179,35 @@ export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => {
         query: serializeStatusesHomeTimelineQuery(queryWithDefaults),
     }).chain(e => e.fold(l => task.of(either.left(l)), handleTimelineResponse));
 };
+
+// https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
+const handleAccountVerifyCredentialsResponse = (
+    response: fetch.Response,
+): Task<AccountVerifyCredentialsResponse> =>
+    new Task(() => response.text()).map(text => {
+        if (response.ok) {
+            return Decode.jsonDecodeString(TwitterAPIAccountVerifyCredentials)(text).mapLeft(
+                decodeError => new DecodeErrorErrorResponse(decodeError),
+            );
+        } else {
+            return typecheck<Response<TwitterAPIErrorResponseT>>(
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
+                    decodeError => new DecodeErrorErrorResponse(decodeError),
+                ),
+            ).chain(errorResponse =>
+                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
+            );
+        }
+    });
+export type fetchAccountVerifyCredentials = (
+    args: {
+        oAuth: OAuthOptionsInput;
+    },
+) => Task<AccountVerifyCredentialsResponse>;
+export const fetchAccountVerifyCredentials: fetchAccountVerifyCredentials = ({ oAuth }) =>
+    fetchFromTwitter({
+        oAuth,
+        endpointPath: ENDPOINTS.AccountVerifyCredentials,
+        method: 'GET',
+        query: {},
+    }).chain(e => e.fold(l => task.of(either.left(l)), handleAccountVerifyCredentialsResponse));

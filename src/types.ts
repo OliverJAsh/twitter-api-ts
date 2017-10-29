@@ -62,6 +62,11 @@ export type TwitterAPIAccessTokenResponseT = t.TypeOf<typeof TwitterAPIAccessTok
 export const TwitterAPITimelineResponse = t.array(Tweet);
 export type TwitterAPITimelineResponseT = t.TypeOf<typeof TwitterAPITimelineResponse>;
 
+export const TwitterAPIAccountVerifyCredentials = User;
+export type TwitterAPIAccountVerifyCredentialsT = t.TypeOf<
+    typeof TwitterAPIAccountVerifyCredentials
+>;
+
 //
 // Full responses (either success or error)
 //
@@ -111,6 +116,7 @@ export type Response<T> = Either<ErrorResponse, T>;
 export type RequestTokenResponse = Response<TwitterAPIRequestTokenResponseT>;
 export type AccessTokenResponse = Response<TwitterAPIAccessTokenResponseT>;
 export type TimelineResponse = Response<TwitterAPITimelineResponseT>;
+export type AccountVerifyCredentialsResponse = Response<TwitterAPIAccountVerifyCredentialsT>;
 
 //
 // Other
