@@ -143,7 +143,7 @@ export const getAccessToken: getAccessToken = ({ oAuth }) =>
         query: {},
     }).chain(e => e.fold(l => task.of(either.left(l)), handleAccessTokenResponse));
 
-// https://dev.twitter.com/rest/reference/get/statuses/home_timeline
+// https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
 const handleTimelineResponse = (response: fetch.Response): Task<TimelineResponse> =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
