@@ -15,12 +15,14 @@ export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 // Entities
 //
 
+export const User = t.interface({
+    screen_name: t.string,
+});
+
 export const Tweet = t.interface({
     id_str: t.string,
     created_at: t.string,
-    user: t.interface({
-        screen_name: t.string,
-    }),
+    user: User,
     text: t.string,
 });
 export type TweetT = t.TypeOf<typeof Tweet>;
