@@ -1,10 +1,22 @@
 {
+    "linterOptions": {
+        "exclude": ["**/node_modules/**/*"]
+    },
     "rules": {
-        // Not currently supported by tslint-language-service
-        // https://github.com/Microsoft/TypeScript/issues/15344
+        "no-any": true,
+
+        // Conflicts with `no-unused-variable` rule
+        // https://github.com/palantir/tslint/issues/2728#issuecomment-317262259
+        // "no-unsafe-any": true,
+
+        // - Not currently supported by tslint-language-service
+        //   https://github.com/palantir/tslint/issues/2649
+        // - This rule causes false positive errors when used with no-inferred-empty-object-type,
+        //   no-unsafe-any
+        //   https://github.com/palantir/tslint/issues/2728#issuecomment-317262259
         "no-unused-variable": [true, "check-parameters"],
+
         "strict-boolean-expressions": true,
-        "ordered-imports": [true],
         "no-inferrable-types": [true, "ignore-properties"],
         "no-switch-case-fall-through": true,
         "arrow-return-shorthand": [true, "multiline"],
@@ -27,7 +39,7 @@
         "use-default-type-parameter": true,
         "use-isnan": true,
         "deprecation": true,
-        "max-file-line-count": [true, 300],
+        "max-file-line-count": [true, 400],
         // Rationale: https://github.com/palantir/tslint/issues/1182#issue-151780453
         "no-default-export": true,
         "prefer-const": true,
@@ -51,9 +63,7 @@
             "allow-pascal-case"
         ],
         "no-import-side-effect": true,
-        "no-duplicate-imports": true
-
-        // Handled by prettier
-        // "trailing-comma": [true, { "multiline": "always" }]
+        "no-duplicate-imports": true,
+        "no-implicit-dependencies": [true, "dev"]
     }
 }

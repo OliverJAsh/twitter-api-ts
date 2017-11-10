@@ -5,7 +5,7 @@ import Either = either.Either;
 
 export const eitherTryCatchAsync = <E, A>(
     f: Lazy<Promise<A>>,
-    onError: (reason: any) => E,
+    onError: (reason: {}) => E,
 ): Lazy<Promise<Either<E, A>>> => () => {
     try {
         return f().then(a => either.right<E, A>(a), reason => either.left<E, A>(onError(reason)));
