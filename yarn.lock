@@ -375,9 +375,9 @@ node-fetch@^1.7.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-oauth-authorization-header@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/oauth-authorization-header/-/oauth-authorization-header-0.0.5.tgz#790d1f9d5f90af45fa7f688270f2273d8b4c9fbc"
+oauth-authorization-header@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/oauth-authorization-header/-/oauth-authorization-header-0.0.6.tgz#ed6bacf62bd5a2ffcbf5f57cffc2623b319d815e"
   dependencies:
     qs "6.4.0"
     request "2.81.0"

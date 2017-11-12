@@ -69,7 +69,7 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
         oAuth: {
             consumerKey: oAuthWithDefaults.consumerKey,
             consumerSecret: oAuthWithDefaults.consumerSecret,
-            callback: oAuthWithDefaults.callback,
+            callback: nullableNullToUndefined(oAuthWithDefaults.callback.toNullable()),
             token: nullableNullToUndefined(oAuthWithDefaults.token.toNullable()),
             tokenSecret: nullableNullToUndefined(oAuthWithDefaults.tokenSecret.toNullable()),
             verifier: nullableNullToUndefined(oAuthWithDefaults.verifier.toNullable()),
