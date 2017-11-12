@@ -18,7 +18,7 @@
     "fp-ts": "^0.6.2",
     "io-ts": "^0.8.2",
     "node-fetch": "^1.7.1",
-    "oauth-authorization-header": "^0.0.6",
+    "oauth-authorization-header": "^0.0.7",
     "typelevel-ts": "^0.2.0"
   },
   "devDependencies": {
