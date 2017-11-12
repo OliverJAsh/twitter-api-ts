@@ -87,7 +87,7 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
     }).map(e => e.mapLeft(error => new JavaScriptErrorErrorResponse(error)));
 };
 
-// https://dev.twitter.com/oauth/reference/post/oauth/request_token
+// https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token
 type handleRequestTokenResponse = (response: fetch.Response) => Task<RequestTokenResponse>;
 const handleRequestTokenResponse: handleRequestTokenResponse = response =>
     new Task(() => response.text()).map(text => {
@@ -115,7 +115,7 @@ export const getRequestToken: getRequestToken = ({ oAuth }) =>
         query: {},
     }).chain(e => e.fold(l => task.of(either.left(l)), handleRequestTokenResponse));
 
-// https://dev.twitter.com/oauth/reference/post/oauth/access_token
+// https://developer.twitter.com/en/docs/basics/authentication/api-reference/access_token
 type handleAccessTokenResponse = (response: fetch.Response) => Task<AccessTokenResponse>;
 const handleAccessTokenResponse: handleAccessTokenResponse = response =>
     new Task(() => response.text()).map(text => {
