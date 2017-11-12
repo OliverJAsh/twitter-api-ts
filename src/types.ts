@@ -126,9 +126,11 @@ export type AccountVerifyCredentialsResponse = Response<TwitterAPIAccountVerifyC
 export type OAuthOptions = {
     consumerKey: string;
     consumerSecret: string;
+    // Required for request_token
     callback: Option<string>;
     token: Option<string>;
     tokenSecret: Option<string>;
+    // Required for access_token
     verifier: Option<string>;
 };
 
