@@ -40,7 +40,11 @@ export const typecheck = <A>(a: A) => a;
 
 // Defaults
 
-export const defaultOAuthOptions: Pick<OAuthOptions, 'verifier' | 'token' | 'tokenSecret'> = {
+export const defaultOAuthOptions: Pick<
+    OAuthOptions,
+    'callback' | 'verifier' | 'token' | 'tokenSecret'
+> = {
+    callback: option.zero(),
     verifier: option.zero(),
     token: option.zero(),
     tokenSecret: option.zero(),
