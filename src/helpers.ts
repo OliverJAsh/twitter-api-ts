@@ -33,7 +33,7 @@ export const serializeStatusesHomeTimelineQuery = (
     count: nullableNullToUndefined(query.count.toNullable()),
     ...query.maybeMaxId
         .map((maxId): Pick<SerializedStatusesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
-        .getOrElse(() => ({})),
+        .getOrElseL(() => ({})),
 });
 
 export const typecheck = <A>(a: A) => a;
@@ -44,16 +44,16 @@ export const defaultOAuthOptions: Pick<
     OAuthOptions,
     'callback' | 'verifier' | 'token' | 'tokenSecret'
 > = {
-    callback: option.zero(),
-    verifier: option.zero(),
-    token: option.zero(),
-    tokenSecret: option.zero(),
+    callback: option.none,
+    verifier: option.none,
+    token: option.none,
+    tokenSecret: option.none,
 };
 
 export const defaultStatusesHomeTimelineQuery: Pick<
     StatusesHomeTimelineQuery,
     'count' | 'maybeMaxId'
 > = {
-    count: option.zero(),
-    maybeMaxId: option.zero(),
+    count: option.none,
+    maybeMaxId: option.none,
 };

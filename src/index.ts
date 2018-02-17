@@ -45,7 +45,7 @@ import {
 /* tslint:disable no-unused-variable */
 // tslint:disable-next-line no-duplicate-imports
 import { Left, Right } from 'fp-ts/lib/Either';
-import { InterfaceOf, InterfaceType, Type } from 'io-ts';
+import { InterfaceType, Type } from 'io-ts';
 // tslint:disable-next-line no-duplicate-imports
 import * as t from 'io-ts';
 /* tslint:enable no-unused-variable */
@@ -113,7 +113,7 @@ export const getRequestToken: getRequestToken = ({ oAuth }) =>
         endpointPath: ENDPOINTS.OAuthRequestToken,
         method: 'POST',
         query: {},
-    }).chain(e => e.fold(l => task.of(either.left(l)), handleRequestTokenResponse));
+    }).chain(e => e.fold(l => task.task.of(either.left(l)), handleRequestTokenResponse));
 
 // https://developer.twitter.com/en/docs/basics/authentication/api-reference/access_token
 type handleAccessTokenResponse = (response: fetch.Response) => Task<AccessTokenResponse>;
@@ -141,7 +141,7 @@ export const getAccessToken: getAccessToken = ({ oAuth }) =>
         endpointPath: ENDPOINTS.OAuthAccessToken,
         method: 'POST',
         query: {},
-    }).chain(e => e.fold(l => task.of(either.left(l)), handleAccessTokenResponse));
+    }).chain(e => e.fold(l => task.task.of(either.left(l)), handleAccessTokenResponse));
 
 // https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
 const handleTimelineResponse = (response: fetch.Response): Task<TimelineResponse> =>
@@ -177,7 +177,7 @@ export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => {
         endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
         query: serializeStatusesHomeTimelineQuery(queryWithDefaults),
-    }).chain(e => e.fold(l => task.of(either.left(l)), handleTimelineResponse));
+    }).chain(e => e.fold(l => task.task.of(either.left(l)), handleTimelineResponse));
 };
 
 // https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
@@ -210,4 +210,6 @@ export const fetchAccountVerifyCredentials: fetchAccountVerifyCredentials = ({ o
         endpointPath: ENDPOINTS.AccountVerifyCredentials,
         method: 'GET',
         query: {},
-    }).chain(e => e.fold(l => task.of(either.left(l)), handleAccountVerifyCredentialsResponse));
+    }).chain(e =>
+        e.fold(l => task.task.of(either.left(l)), handleAccountVerifyCredentialsResponse),
+    );
