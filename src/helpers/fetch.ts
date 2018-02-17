@@ -10,7 +10,8 @@ export type fetchTaskEither = (
     init?: fetch.RequestInit,
 ) => Task<Either<Error, fetch.Response>>;
 export const fetchTaskEither: fetchTaskEither = (url, init) =>
-    task.tryCatch(() => fetch.default(url, init))(
+    task.tryCatch(
+        () => fetch.default(url, init),
         // We assert that we'll only ever receive an `Error` instance from `fetch`
         (error): Error => error as Error,
     );
