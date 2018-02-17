@@ -26,6 +26,6 @@
     "prettier": "^1.5.3",
     "tslint": "^5.8.0",
     "tslint-language-service": "^0.9.6",
-    "typescript": "^2.6.1"
+    "typescript": "^2.7.2"
   }
 }
