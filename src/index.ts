@@ -13,7 +13,6 @@ import {
     createErrorResponse,
     defaultOAuthOptions,
     defaultStatusesHomeTimelineQuery,
-    nullableNullToUndefined,
     serializeStatusesHomeTimelineQuery,
     typecheck,
 } from './helpers';
@@ -57,10 +56,10 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
         oAuth: {
             consumerKey: oAuthWithDefaults.consumerKey,
             consumerSecret: oAuthWithDefaults.consumerSecret,
-            callback: nullableNullToUndefined(oAuthWithDefaults.callback.toNullable()),
-            token: nullableNullToUndefined(oAuthWithDefaults.token.toNullable()),
-            tokenSecret: nullableNullToUndefined(oAuthWithDefaults.tokenSecret.toNullable()),
-            verifier: nullableNullToUndefined(oAuthWithDefaults.verifier.toNullable()),
+            callback: oAuthWithDefaults.callback.toUndefined(),
+            token: oAuthWithDefaults.token.toUndefined(),
+            tokenSecret: oAuthWithDefaults.tokenSecret.toUndefined(),
+            verifier: oAuthWithDefaults.verifier.toUndefined(),
         },
         url,
         method,

@@ -19,13 +19,10 @@ import {
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
     either.left(errorResponse);
 
-export const nullableNullToUndefined = <T>(maybeT: T | null): T | undefined =>
-    maybeT === null ? undefined : maybeT;
-
 export const serializeStatusesHomeTimelineQuery = (
     query: StatusesHomeTimelineQuery,
 ): SerializedStatusesHomeTimelineQuery => ({
-    count: nullableNullToUndefined(query.count.toNullable()),
+    count: query.count.toUndefined(),
     ...query.maybeMaxId
         .map((maxId): Pick<SerializedStatusesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
         .getOrElseL(() => ({})),
