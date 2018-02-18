@@ -49,7 +49,8 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
     const oAuthWithDefaults: OAuthOptions = { ...defaultOAuthOptions, ...oAuth };
 
     const baseUrl = `${TWITTER_API_BASE_URL}${endpointPath}`;
-    const paramsStr = Object.keys(query).length > 0 ? `?${querystring.stringify(query)}` : '';
+    const queryString = querystring.stringify(query);
+    const paramsStr = Object.keys(query).length > 0 ? `?${queryString}` : '';
     const url = `${baseUrl}${paramsStr}`;
 
     const authorizationHeader = getOAuthAuthorizationHeader({
