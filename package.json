@@ -2,7 +2,7 @@
   "name": "twitter-api-ts",
   "main": "./target/index.js",
   "typings": "./target/index.d.ts",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
     "compile": "tsc",
@@ -10,7 +10,9 @@
     "prepublishOnly": "npm run cleanTarget && npm run compile && npm run lint",
     "format": "prettier --write './**/*.{ts,js,json}'"
   },
-  "files": ["target"],
+  "files": [
+    "target"
+  ],
   "dependencies": {
     "decode-ts": "^0.0.10",
     "fp-ts": "^1.0.1",
