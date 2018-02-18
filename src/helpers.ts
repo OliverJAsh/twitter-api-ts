@@ -29,8 +29,8 @@ export const defaultOAuthOptions: Pick<
 
 export const defaultStatusesHomeTimelineQuery: Pick<
     StatusesHomeTimelineQueryT,
-    'count' | 'maybeMaxId'
+    'count' | 'max_id'
 > = {
     count: option.none,
-    maybeMaxId: option.none,
+    max_id: option.none,
 };

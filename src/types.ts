@@ -107,7 +107,7 @@ export type OAuthOptionsInput = ObjectClean<ObjectDiff<OAuthOptions, typeof defa
 
 export const StatusesHomeTimelineQuery = t.interface({
     count: createOptionFromNullable(t.number),
-    maybeMaxId: createOptionFromNullable(t.string),
+    max_id: createOptionFromNullable(t.string),
 });
 export type StatusesHomeTimelineQueryT = t.TypeOf<typeof StatusesHomeTimelineQuery>;
 
