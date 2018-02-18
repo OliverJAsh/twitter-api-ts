@@ -8,13 +8,7 @@ import { ValidationError } from 'io-ts';
 /* tslint:enable no-unused-variable */
 
 // tslint:disable-next-line no-duplicate-imports
-import {
-    ErrorResponse,
-    OAuthOptions,
-    Response,
-    StatusesHomeTimelineQuery,
-    StatusesHomeTimelineQueryT,
-} from './types';
+import { ErrorResponse, OAuthOptions, Response, StatusesHomeTimelineQueryT } from './types';
 
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
     either.left(errorResponse);
