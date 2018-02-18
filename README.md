@@ -22,7 +22,6 @@ import * as option from 'fp-ts/lib/Option';
 
 const CONSUMER_KEY = 'YOUR_CONSUMER_KEY';
 const CONSUMER_SECRET = 'YOUR_CONSUMER_SECRET';
-const CALLBACK = 'YOUR_CALLBACK';
 const TOKEN = 'YOUR_TOKEN';
 const TOKEN_SECRET = 'YOUR_TOKEN_SECRET';
 
