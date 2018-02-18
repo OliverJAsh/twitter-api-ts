@@ -30,7 +30,6 @@ fetchHomeTimeline({
     oAuth: {
         consumerKey: CONSUMER_KEY,
         consumerSecret: CONSUMER_SECRET,
-        callback: CALLBACK,
         token: option.some(TOKEN),
         tokenSecret: option.some(TOKEN_SECRET),
     },
