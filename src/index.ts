@@ -80,9 +80,9 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return Decode.validateType(TwitterAPIRequestTokenResponse)(parsed).mapLeft(
-                decodeError => ErrorResponse.DecodeError({ decodeError }),
-            );
+            return Decode.validateType(TwitterAPIRequestTokenResponse)(
+                parsed,
+            ).mapLeft(decodeError => ErrorResponse.DecodeError({ decodeError }));
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
                 Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
@@ -173,9 +173,9 @@ const handleAccountVerifyCredentialsResponse = (
 ): Task<AccountVerifyCredentialsResponse> =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
-            return Decode.jsonDecodeString(TwitterAPIAccountVerifyCredentials)(text).mapLeft(
-                decodeError => ErrorResponse.DecodeError({ decodeError }),
-            );
+            return Decode.jsonDecodeString(TwitterAPIAccountVerifyCredentials)(
+                text,
+            ).mapLeft(decodeError => ErrorResponse.DecodeError({ decodeError }));
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
                 Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
