@@ -13,7 +13,6 @@ import {
     createErrorResponse,
     defaultOAuthOptions,
     defaultStatusesHomeTimelineQuery,
-    serializeStatusesHomeTimelineQuery,
     typecheck,
 } from './helpers';
 import { fetchTaskEither } from './helpers/fetch';
@@ -26,7 +25,7 @@ import {
     RequestMethod,
     RequestTokenResponse,
     Response,
-    StatusesHomeTimelineQuery,
+    StatusesHomeTimelineQueryT,
     StatusesHomeTimelineQueryInput,
     TimelineResponse,
     TwitterAPIAccessTokenResponse,
@@ -35,6 +34,7 @@ import {
     TwitterAPIErrorResponseT,
     TwitterAPIRequestTokenResponse,
     TwitterAPITimelineResponse,
+    StatusesHomeTimelineQuery,
 } from './types';
 
 export type fetchFromTwitter = (
@@ -154,7 +154,7 @@ export type fetchHomeTimeline = (
     },
 ) => Task<TimelineResponse>;
 export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => {
-    const queryWithDefaults: StatusesHomeTimelineQuery = {
+    const queryWithDefaults: StatusesHomeTimelineQueryT = {
         ...defaultStatusesHomeTimelineQuery,
         ...query,
     };
@@ -163,7 +163,7 @@ export const fetchHomeTimeline: fetchHomeTimeline = ({ oAuth, query }) => {
         oAuth,
         endpointPath: ENDPOINTS.StatusesHomeTimeline,
         method: 'GET',
-        query: serializeStatusesHomeTimelineQuery(queryWithDefaults),
+        query: StatusesHomeTimelineQuery.encode(queryWithDefaults),
     }).chain(e => e.fold(l => task.task.of(either.left(l)), handleTimelineResponse));
 };
 

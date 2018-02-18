@@ -12,21 +12,12 @@ import {
     ErrorResponse,
     OAuthOptions,
     Response,
-    SerializedStatusesHomeTimelineQuery,
     StatusesHomeTimelineQuery,
+    StatusesHomeTimelineQueryT,
 } from './types';
 
 export const createErrorResponse = <T>(errorResponse: ErrorResponse): Response<T> =>
     either.left(errorResponse);
-
-export const serializeStatusesHomeTimelineQuery = (
-    query: StatusesHomeTimelineQuery,
-): SerializedStatusesHomeTimelineQuery => ({
-    count: query.count.toUndefined(),
-    ...query.maybeMaxId
-        .map((maxId): Pick<SerializedStatusesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
-        .getOrElse({}),
-});
 
 export const typecheck = <A>(a: A) => a;
 
@@ -43,7 +34,7 @@ export const defaultOAuthOptions: Pick<
 };
 
 export const defaultStatusesHomeTimelineQuery: Pick<
-    StatusesHomeTimelineQuery,
+    StatusesHomeTimelineQueryT,
     'count' | 'maybeMaxId'
 > = {
     count: option.none,
