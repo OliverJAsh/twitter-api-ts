@@ -114,3 +114,5 @@ export type StatusesHomeTimelineQueryT = t.TypeOf<typeof StatusesHomeTimelineQue
 export type StatusesHomeTimelineQueryInput = ObjectClean<
     ObjectDiff<StatusesHomeTimelineQueryT, typeof defaultStatusesHomeTimelineQuery>
 >;
+
+export type OAuthAuthenticateEndpointQuery = { oauth_token: string };
