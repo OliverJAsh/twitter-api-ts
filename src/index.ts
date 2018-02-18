@@ -4,6 +4,7 @@ import * as task from 'fp-ts/lib/Task';
 import * as fetch from 'node-fetch';
 import { getOAuthAuthorizationHeader } from 'oauth-authorization-header';
 import * as querystring from 'querystring';
+import * as qsLib from 'qs';
 
 import Either = either.Either;
 import Task = task.Task;
@@ -49,7 +50,10 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
     const oAuthWithDefaults: OAuthOptions = { ...defaultOAuthOptions, ...oAuth };
 
     const baseUrl = `${TWITTER_API_BASE_URL}${endpointPath}`;
-    const queryString = querystring.stringify(query);
+    // We must use `qs` and not `querystring` for stringifying because that's what
+    // `oauth-authorization-header` uses, and the query string needs to be consistent. (`qs` differs
+    // in many ways, including the way it stringifies `undefined`.)
+    const queryString = qsLib.stringify(query);
     const paramsStr = Object.keys(query).length > 0 ? `?${queryString}` : '';
     const url = `${baseUrl}${paramsStr}`;
 
