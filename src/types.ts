@@ -1,3 +1,4 @@
+import { unionize, ofType } from 'unionize';
 import * as DecodeTypes from 'decode-ts/target/types';
 import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
@@ -72,45 +73,14 @@ export type TwitterAPIAccountVerifyCredentialsT = t.TypeOf<
 // Full responses (either success or error)
 //
 
-export enum ErrorResponseTypes {
-    APIErrorResponse = 'APIErrorResponse',
-    DecodeError = 'DecodeError',
-    JavaScriptError = 'JavaScriptError',
-}
-
-export class APIErrorResponseErrorResponse {
-    // Literal type annotation required due to bug whereby literal types are
-    // lost in declarations.
-    // https://github.com/Microsoft/TypeScript/issues/15881
-    readonly type: typeof ErrorResponseTypes.APIErrorResponse = ErrorResponseTypes.APIErrorResponse;
-
-    constructor(public apiErrorResponse: TwitterAPIErrorResponseT) {}
-}
-
-export class DecodeErrorErrorResponse {
-    // Literal type annotation required due to bug whereby literal types are
-    // lost in declarations.
-    // https://github.com/Microsoft/TypeScript/issues/15881
-    readonly type: typeof ErrorResponseTypes.DecodeError = ErrorResponseTypes.DecodeError;
-
-    constructor(
-        public decodeError: DecodeTypes.ValidationErrorsError | DecodeTypes.ParsingErrorError,
-    ) {}
-}
-
-export class JavaScriptErrorErrorResponse {
-    // Literal type annotation required due to bug whereby literal types are
-    // lost in declarations.
-    // https://github.com/Microsoft/TypeScript/issues/15881
-    readonly type: typeof ErrorResponseTypes.JavaScriptError = ErrorResponseTypes.JavaScriptError;
-
-    constructor(public error: Error) {}
-}
-
-export type ErrorResponse =
-    | JavaScriptErrorErrorResponse
-    | APIErrorResponseErrorResponse
-    | DecodeErrorErrorResponse;
+export const ErrorResponse = unionize({
+    JavaScriptError: ofType<{ error: Error }>(),
+    APIErrorResponse: ofType<{ apiErrorResponse: TwitterAPIErrorResponseT }>(),
+    DecodeError: ofType<{
+        decodeError: DecodeTypes.ValidationErrorsError | DecodeTypes.ParsingErrorError;
+    }>(),
+});
+export type ErrorResponse = typeof ErrorResponse._Union;
 
 export type Response<T> = Either<ErrorResponse, T>;
 

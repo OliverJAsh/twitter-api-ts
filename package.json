@@ -19,7 +19,8 @@
     "io-ts": "^1.0.2",
     "node-fetch": "^1.7.1",
     "oauth-authorization-header": "^0.0.7",
-    "typelevel-ts": "^0.2.0"
+    "typelevel-ts": "^0.2.0",
+    "unionize": "^1.0.0"
   },
   "devDependencies": {
     "@types/node-fetch": "^1.6.7",

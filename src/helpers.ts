@@ -5,11 +5,6 @@ import * as option from 'fp-ts/lib/Option';
 /* tslint:disable no-unused-variable */
 import * as DecodeTypes from 'decode-ts/target/types';
 import { Response as FetchResponse } from 'node-fetch';
-import {
-    APIErrorResponseErrorResponse,
-    DecodeErrorErrorResponse,
-    JavaScriptErrorErrorResponse,
-} from './types';
 /* tslint:enable no-unused-variable */
 
 // tslint:disable-next-line no-duplicate-imports

@@ -21,10 +21,7 @@ import { fetchTaskEither } from './helpers/fetch';
 import {
     AccessTokenResponse,
     AccountVerifyCredentialsResponse,
-    APIErrorResponseErrorResponse,
-    DecodeErrorErrorResponse,
     ErrorResponse,
-    JavaScriptErrorErrorResponse,
     OAuthOptions,
     OAuthOptionsInput,
     RequestMethod,
@@ -84,7 +81,7 @@ export const fetchFromTwitter: fetchFromTwitter = ({ oAuth, endpointPath, method
     return fetchTaskEither(url, {
         method,
         headers,
-    }).map(e => e.mapLeft(error => new JavaScriptErrorErrorResponse(error)));
+    }).map(e => e.mapLeft(error => ErrorResponse.JavaScriptError({ error })));
 };
 
 // https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token
@@ -93,16 +90,16 @@ const handleRequestTokenResponse: handleRequestTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return Decode.validateType(TwitterAPIRequestTokenResponse)(parsed).mapLeft(
-                decodeError => new DecodeErrorErrorResponse(decodeError),
-            );
+            return Decode.validateType(TwitterAPIRequestTokenResponse)(
+                parsed,
+            ).mapLeft(decodeError => ErrorResponse.DecodeError({ decodeError }));
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
-                    decodeError => new DecodeErrorErrorResponse(decodeError),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
+                    ErrorResponse.DecodeError({ decodeError }),
                 ),
-            ).chain(errorResponse =>
-                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
+            ).chain(apiErrorResponse =>
+                createErrorResponse(ErrorResponse.APIErrorResponse({ apiErrorResponse })),
             );
         }
     });
@@ -121,16 +118,16 @@ const handleAccessTokenResponse: handleAccessTokenResponse = response =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
             const parsed = querystring.parse(text);
-            return Decode.validateType(TwitterAPIAccessTokenResponse)(parsed).mapLeft(
-                decodeError => new DecodeErrorErrorResponse(decodeError),
+            return Decode.validateType(TwitterAPIAccessTokenResponse)(parsed).mapLeft(decodeError =>
+                ErrorResponse.DecodeError({ decodeError }),
             );
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
-                    decodeError => new DecodeErrorErrorResponse(decodeError),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
+                    ErrorResponse.DecodeError({ decodeError }),
                 ),
-            ).chain(errorResponse =>
-                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
+            ).chain(apiErrorResponse =>
+                createErrorResponse(ErrorResponse.APIErrorResponse({ apiErrorResponse })),
             );
         }
     });
@@ -147,16 +144,16 @@ export const getAccessToken: getAccessToken = ({ oAuth }) =>
 const handleTimelineResponse = (response: fetch.Response): Task<TimelineResponse> =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
-            return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text).mapLeft(
-                decodeError => new DecodeErrorErrorResponse(decodeError),
+            return Decode.jsonDecodeString(TwitterAPITimelineResponse)(text).mapLeft(decodeError =>
+                ErrorResponse.DecodeError({ decodeError }),
             );
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
-                    decodeError => new DecodeErrorErrorResponse(decodeError),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
+                    ErrorResponse.DecodeError({ decodeError }),
                 ),
-            ).chain(errorResponse =>
-                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
+            ).chain(apiErrorResponse =>
+                createErrorResponse(ErrorResponse.APIErrorResponse({ apiErrorResponse })),
             );
         }
     });
@@ -186,16 +183,16 @@ const handleAccountVerifyCredentialsResponse = (
 ): Task<AccountVerifyCredentialsResponse> =>
     new Task(() => response.text()).map(text => {
         if (response.ok) {
-            return Decode.jsonDecodeString(TwitterAPIAccountVerifyCredentials)(text).mapLeft(
-                decodeError => new DecodeErrorErrorResponse(decodeError),
-            );
+            return Decode.jsonDecodeString(TwitterAPIAccountVerifyCredentials)(
+                text,
+            ).mapLeft(decodeError => ErrorResponse.DecodeError({ decodeError }));
         } else {
             return typecheck<Response<TwitterAPIErrorResponseT>>(
-                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(
-                    decodeError => new DecodeErrorErrorResponse(decodeError),
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
+                    ErrorResponse.DecodeError({ decodeError }),
                 ),
-            ).chain(errorResponse =>
-                createErrorResponse(new APIErrorResponseErrorResponse(errorResponse)),
+            ).chain(apiErrorResponse =>
+                createErrorResponse(ErrorResponse.APIErrorResponse({ apiErrorResponse })),
             );
         }
     });

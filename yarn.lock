@@ -551,6 +551,10 @@ typescript@^2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
 
+unionize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/unionize/-/unionize-1.0.0.tgz#ed2cc4230b458366bb17bb72cd06c5c328e08d0a"
+
 uuid@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
