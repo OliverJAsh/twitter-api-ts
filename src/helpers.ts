@@ -4,7 +4,6 @@ import * as option from 'fp-ts/lib/Option';
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
 import * as DecodeTypes from 'decode-ts/target/types';
-import { Response as FetchResponse } from 'node-fetch';
 /* tslint:enable no-unused-variable */
 
 // tslint:disable-next-line no-duplicate-imports

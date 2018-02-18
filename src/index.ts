@@ -38,15 +38,6 @@ import {
     TwitterAPITimelineResponse,
 } from './types';
 
-// These are only needed for emitting TypeScript declarations
-/* tslint:disable no-unused-variable */
-// tslint:disable-next-line no-duplicate-imports
-import { Left, Right } from 'fp-ts/lib/Either';
-import { InterfaceType, Type } from 'io-ts';
-// tslint:disable-next-line no-duplicate-imports
-import * as t from 'io-ts';
-/* tslint:enable no-unused-variable */
-
 export type fetchFromTwitter = (
     args: {
         oAuth: OAuthOptionsInput;
