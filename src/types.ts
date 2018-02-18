@@ -8,6 +8,7 @@ import { ObjectClean, ObjectDiff } from 'typelevel-ts';
 import Option = option.Option;
 import Either = either.Either;
 
+import { createOptionFromNullable } from './helpers/io-ts';
 import { defaultOAuthOptions, defaultStatusesHomeTimelineQuery } from './helpers';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
@@ -103,22 +104,6 @@ export type OAuthOptions = {
 };
 
 export type OAuthOptionsInput = ObjectClean<ObjectDiff<OAuthOptions, typeof defaultOAuthOptions>>;
-
-// https://github.com/gcanti/io-ts-types/blob/d3c51fbd92e4d214acfc45236fd02c4b900088ef/src/fp-ts/createOptionFromNullable.ts
-// Difference: `T | undefined` instead of `T | null`
-// https://github.com/gcanti/io-ts-types/issues/21
-export const createOptionFromNullable = <A, O>(
-    type: t.Type<A, O>,
-): t.Type<Option<A>, O | undefined> => {
-    const Nullable = t.union([type, t.null, t.undefined]);
-    return new t.Type(
-        `Option<${type.name}>`,
-        (m): m is Option<A> =>
-            m instanceof option.None || (m instanceof option.Some && type.is(m.value)),
-        (s, c) => Nullable.validate(s, c).chain(u => t.success(option.fromNullable(u))),
-        a => a.map(type.encode).toUndefined(),
-    );
-};
 
 export const StatusesHomeTimelineQuery = t.interface({
     count: createOptionFromNullable(t.number),
