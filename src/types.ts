@@ -76,9 +76,7 @@ export type TwitterAPIAccountVerifyCredentialsT = t.TypeOf<
 export const ErrorResponse = unionize({
     JavaScriptError: ofType<{ error: Error }>(),
     APIErrorResponse: ofType<{ apiErrorResponse: TwitterAPIErrorResponseT }>(),
-    DecodeError: ofType<{
-        decodeError: DecodeTypes.ValidationErrorsError | DecodeTypes.ParsingErrorError;
-    }>(),
+    DecodeError: ofType<{ decodeError: DecodeTypes.JsonDecodeError }>(),
 });
 export type ErrorResponse = typeof ErrorResponse._Union;
 

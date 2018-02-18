@@ -14,7 +14,7 @@
     "target"
   ],
   "dependencies": {
-    "decode-ts": "^0.0.8",
+    "decode-ts": "^0.0.10",
     "fp-ts": "^1.0.1",
     "io-ts": "^1.0.2",
     "node-fetch": "^1.7.1",
