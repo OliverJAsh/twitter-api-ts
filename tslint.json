@@ -35,7 +35,6 @@
         "radix": true,
         "restrict-plus-operands": true,
         "triple-equals": true,
-        "typeof-compare": true,
         "use-default-type-parameter": true,
         "use-isnan": true,
         "deprecation": true,
@@ -52,7 +51,7 @@
         "object-literal-shorthand": true,
         "prefer-switch": true,
         "prefer-template": true,
-        "quotemark": [true, "single"],
+        "quotemark": [true, "single", "avoid-escape"],
         "variable-name": [
             true,
             "ban-keywords",
@@ -64,6 +63,7 @@
         ],
         "no-import-side-effect": true,
         "no-duplicate-imports": true,
-        "no-implicit-dependencies": [true, "dev"]
+        "no-implicit-dependencies": [true, "dev"],
+        "array-type": [true, "array-simple"]
     }
 }
