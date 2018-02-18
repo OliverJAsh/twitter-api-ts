@@ -25,7 +25,7 @@ export const serializeStatusesHomeTimelineQuery = (
     count: query.count.toUndefined(),
     ...query.maybeMaxId
         .map((maxId): Pick<SerializedStatusesHomeTimelineQuery, 'max_id'> => ({ max_id: maxId }))
-        .getOrElseL(() => ({})),
+        .getOrElse({}),
 });
 
 export const typecheck = <A>(a: A) => a;
