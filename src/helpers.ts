@@ -3,6 +3,7 @@ import * as option from 'fp-ts/lib/Option';
 
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
+// @ts-ignore
 import { ParsingErrorError, ValidationErrorsError } from 'decode-ts/target/types';
 /* tslint:enable no-unused-variable */
 
