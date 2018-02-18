@@ -1,8 +1,15 @@
+# Note: prettier inherits from `indent_style`, `indent_size`/`tab_width`, and `max_line_length`
+# https://github.com/prettier/prettier/blob/cecf0657a521fa265b713274ed67ca39be4142cf/docs/api.md#prettierresolveconfigfilepath--options
+
 [*]
 indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.{js,ts}]
+# https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties#max_line_length
+max_line_length = 100
 
 [package.json]
 indent_size = 2

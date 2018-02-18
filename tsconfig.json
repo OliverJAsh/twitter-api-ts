@@ -11,12 +11,8 @@
         "sourceMap": true,
 
         "outDir": "./target/",
-        "plugins": [
-            { "name": "tslint-language-service" }
-        ],
+        "plugins": [{ "name": "tslint-language-service" }],
         "declaration": true
     },
-    "files": [
-        "./src/index.ts"
-    ]
+    "files": ["./src/index.ts"]
 }

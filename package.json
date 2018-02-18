@@ -8,11 +8,9 @@
     "compile": "tsc",
     "cleanTarget": "rm -rf ./target/*",
     "prepublishOnly": "npm run cleanTarget && npm run compile && npm run lint",
-    "format": "prettier --write --tab-width 4 --print-width 100 --single-quote --trailing-comma all '!(target)/**/*.{ts,js}'"
+    "format": "prettier --write './**/*.{ts,js,json}'"
   },
-  "files": [
-    "target"
-  ],
+  "files": ["target"],
   "dependencies": {
     "decode-ts": "^0.0.10",
     "fp-ts": "^1.0.1",
