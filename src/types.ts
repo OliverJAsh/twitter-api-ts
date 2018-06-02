@@ -58,7 +58,6 @@ export const TwitterAPIAccessTokenResponse = t.interface({
     oauth_token_secret: t.string,
     user_id: t.string,
     screen_name: t.string,
-    x_auth_expires: t.string,
 });
 export type TwitterAPIAccessTokenResponseT = t.TypeOf<typeof TwitterAPIAccessTokenResponse>;
 
