@@ -21,7 +21,7 @@ export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'UPDATE';
 export const User = t.interface({
     id_str: t.string,
     screen_name: t.string,
-    time_zone: t.union([t.string, t.null]),
+    time_zone: t.null,
 });
 
 export const Tweet = t.interface({
