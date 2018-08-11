@@ -3,8 +3,20 @@ import * as option from 'fp-ts/lib/Option';
 
 // These are only needed for emitting TypeScript declarations
 /* tslint:disable no-unused-variable */
-// @ts-ignore
-import { ValidationError } from 'io-ts';
+import {
+    // @ts-ignore
+    ValidationError,
+    // @ts-ignore
+    TypeOfProps,
+    // @ts-ignore
+    ArrayType,
+    // @ts-ignore
+    InterfaceType,
+    // @ts-ignore
+    NumberType,
+    // @ts-ignore
+    StringType,
+} from 'io-ts';
 /* tslint:enable no-unused-variable */
 
 // tslint:disable-next-line no-duplicate-imports

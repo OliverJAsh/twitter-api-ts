@@ -305,8 +305,8 @@ io-ts-reporters@^0.0.20:
     io-ts "^1.0.2"
 
 io-ts@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-1.0.2.tgz#3e463ba2bfd2daaa4bce615a3fa99b6d8ba7d5ff"
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-1.0.5.tgz#dec6032f8febb4e8a6c614230823accb50f802fe"
   dependencies:
     fp-ts "^1.0.0"
 
