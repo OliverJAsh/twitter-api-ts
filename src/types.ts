@@ -3,7 +3,13 @@ import * as DecodeTypes from 'decode-ts/target/types';
 import * as either from 'fp-ts/lib/Either';
 import * as option from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
-import { ObjectClean, ObjectDiff } from 'typelevel-ts';
+
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+type ObjectOmit<T extends K, K> = Omit<T, keyof K>;
+
+type ObjectDiff<O1 extends O2, O2> = ObjectOmit<O1, O2> & Partial<O2>;
+
+type ObjectClean<T> = Pick<T, keyof T>;
 
 import Option = option.Option;
 import Either = either.Either;

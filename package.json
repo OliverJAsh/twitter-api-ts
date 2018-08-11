@@ -20,7 +20,6 @@
     "node-fetch": "^1.7.1",
     "oauth-authorization-header": "^0.0.7",
     "qs": "^6.5.1",
-    "typelevel-ts": "^0.2.0",
     "unionize": "^1.0.0"
   },
   "devDependencies": {
