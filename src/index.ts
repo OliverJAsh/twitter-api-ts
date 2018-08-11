@@ -36,6 +36,8 @@ import {
     TwitterAPIRequestTokenResponse,
     TwitterAPITimelineResponse,
     StatusesHomeTimelineQuery,
+    TwitterAPIAccountSettings,
+    AccountSettingsResponse,
 } from './types';
 
 export type fetchFromTwitter = (
@@ -205,3 +207,33 @@ export const fetchAccountVerifyCredentials: fetchAccountVerifyCredentials = ({ o
     }).chain(e =>
         e.fold(l => task.task.of(either.left(l)), handleAccountVerifyCredentialsResponse),
     );
+
+// https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-settings
+const handleAccountSettingsResponse = (response: fetch.Response): Task<AccountSettingsResponse> =>
+    new Task(() => response.text()).map(text => {
+        if (response.ok) {
+            return Decode.jsonDecodeString(TwitterAPIAccountSettings)(text).mapLeft(decodeError =>
+                ErrorResponse.DecodeError({ decodeError }),
+            );
+        } else {
+            return typecheck<Response<TwitterAPIErrorResponseT>>(
+                Decode.jsonDecodeString(TwitterAPIErrorResponse)(text).mapLeft(decodeError =>
+                    ErrorResponse.DecodeError({ decodeError }),
+                ),
+            ).chain(apiErrorResponse =>
+                createErrorResponse(ErrorResponse.APIErrorResponse({ apiErrorResponse })),
+            );
+        }
+    });
+export type fetchAccountSettings = (
+    args: {
+        oAuth: OAuthOptionsInput;
+    },
+) => Task<AccountSettingsResponse>;
+export const fetchAccountSettings: fetchAccountSettings = ({ oAuth }) =>
+    fetchFromTwitter({
+        oAuth,
+        endpointPath: ENDPOINTS.AccountSettings,
+        method: 'GET',
+        query: {},
+    }).chain(e => e.fold(l => task.task.of(either.left(l)), handleAccountSettingsResponse));

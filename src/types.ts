@@ -69,6 +69,15 @@ export type TwitterAPIAccountVerifyCredentialsT = t.TypeOf<
     typeof TwitterAPIAccountVerifyCredentials
 >;
 
+export const TwitterAPIAccountSettings = t.interface({
+    time_zone: t.interface({
+        name: t.string,
+        tzinfo_name: t.string,
+        utc_offset: t.number,
+    }),
+});
+export type TwitterAPIAccountSettingsT = t.TypeOf<typeof TwitterAPIAccountSettings>;
+
 //
 // Full responses (either success or error)
 //
@@ -86,6 +95,7 @@ export type RequestTokenResponse = Response<TwitterAPIRequestTokenResponseT>;
 export type AccessTokenResponse = Response<TwitterAPIAccessTokenResponseT>;
 export type TimelineResponse = Response<TwitterAPITimelineResponseT>;
 export type AccountVerifyCredentialsResponse = Response<TwitterAPIAccountVerifyCredentialsT>;
+export type AccountSettingsResponse = Response<TwitterAPIAccountSettingsT>;
 
 //
 // Other
